@@ -2,37 +2,46 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <stdlib.h>
 using namespace std;
 
 string bestandtunnel = "tunnel.txt";
 vector<vector<int>> kamers = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
 int wumpus,bat,pit;
 
-int main(){
+bool check_conf_leeg(){
+    ifstream conf_bestand(bestandtunnel);
+    if(conf_bestand.peek() == std::ifstream::traits_type::eof()){
+        return true;  
+    }
+    return false;
+}
+
+void lees_conf(){
     string line;
-    string uitput;
-    ifstream myfile;
-    myfile.open(bestandtunnel);
+    ifstream conf_bestand;
+    conf_bestand.open(bestandtunnel);
     for(int i = 0; i < 20;i++){
         vector<int> tmp;
         for(int j = 0; j < 3; j++){
-            getline (myfile, line);
+            getline (conf_bestand, line);
             kamers[i].push_back(stoi(line));
         }
     }
-    getline (myfile, line);
+    getline (conf_bestand, line);
     wumpus = stoi(line);
-    getline (myfile, line);
+    getline (conf_bestand, line);
     bat = stoi(line);
-    getline (myfile, line);
+    getline (conf_bestand, line);
     pit = stoi(line);
-    myfile.close();
-    for(int i = 0; i < kamers.size();i++){
-        for(int j = 0; j < kamers[i].size(); j++){
-            cout << kamers[i][j] << ",";
-        }
-        cout << "\n";
-    }
-    cout << wumpus << " " << bat << " " << pit;
+    conf_bestand.close();
+    return;
+}
 
+int main(){
+    if(check_conf_leeg()){
+        cerr << "Error: leeg configuratie bestand. Voer eerst de configuratie uit.\n";
+        exit(1);
+    }
+    lees_conf();
 }
