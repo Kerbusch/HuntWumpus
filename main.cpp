@@ -10,6 +10,8 @@ int locatie = 1;
 string bestandtunnel = "tunnel.txt";
 vector<vector<int>> kamers = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
 int wumpus,bat,pit;
+int pijlen = 5;
+string buur_error;
 
 
 bool check_conf_leeg(){
@@ -43,34 +45,69 @@ void lees_conf(){
     return;
 }
 
-void verplaats(){
-    string string_invoer;
-    cout << "\nWaar wil je heen? ";
-    getline (cin, string_invoer);
+bool check_buur(const string& string_invoer){
     if(string_invoer.size() > 2){
-        cout << "\nGeef waarde tussen 1 en 20.\n";
+        buur_error = "Geef waarde tussen 1 en 20.";
+        return false;
     }else{
         try{
             int invoer = stoi(string_invoer);
             for(int i = 0; i < 3; i ++){
                 if(kamers[locatie-1][i] == invoer){
-                    locatie = invoer;
+                    return true;
                 }
             }
             if(locatie != invoer){
-                cerr << "\nJe kan niet naar deze kamer.\n";
+                buur_error = "kan_niet";
+                return false;
             }
         }
         catch(std::invalid_argument){
-            cerr << "\nGeef alleen numerieke tekens.\n";
+            buur_error = "Geef alleen numerieke tekens.";
+            return false;
+        }
+    }
+}
+
+void verplaats(){
+    string string_invoer;
+    cout << "\nWaar wil je heen? ";
+    getline (cin, string_invoer);
+    if(check_buur(string_invoer)){
+        int invoer = stoi(string_invoer);
+        locatie = invoer;
+    }else{
+        if(buur_error == "kan_niet"){
+            cout << "\n" << "Je hiet niet heen verplaatsen." << "\n";
+        }else{
+            cout << "\n" << buur_error << "\n";
         }
     }
     cout << "\n";
+    return;
 }
 
 void schiet(){
-    cout << "schiet!\n";
+    string string_invoer;
+    cout << "\nWaar wil je heen schieten? ";
+    getline (cin, string_invoer);
+    if(check_buur(string_invoer)){
+        int invoer = stoi(string_invoer);
+        if(invoer == wumpus){
+            cout << "hit the wumput. you win!\n";
+        }else{
+            cout << "miss. wumpus moves.\n";
+        }
+    }else{
+        if(buur_error == "kan_niet"){
+            cout << "\n" << "Je hiet niet heen schieten." << "\n";
+        }else{
+            cout << "\n" << buur_error << "\n";
+        }
+    }cout << "\n";
     return;
+    //check of de pijl raak is
+    //zoniet verplaats wumpus naar wilekeurige kamer.
 }
 
 void test1(){
