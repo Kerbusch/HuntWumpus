@@ -3,6 +3,8 @@
 #include <string>
 #include <fstream>
 #include <stdlib.h>
+#include <time.h>
+#include <stdio.h>
 using namespace std;
 
 //Global variable
@@ -13,35 +15,34 @@ int wumpus,bat,pit;
 int pijlen = 5;
 string buur_error;
 
-
-bool check_conf_leeg(){
-    //checkt of het configuratie bestand leeg is.
-    ifstream conf_bestand(bestandtunnel);
-    if(conf_bestand.peek() == std::ifstream::traits_type::eof()){
+bool check_tunnel_leeg(){
+    //checkt of het tunnel bestand leeg is.
+    ifstream conf_tunnel_bestand(bestandtunnel);
+    if(conf_tunnel_bestand.peek() == std::ifstream::traits_type::eof()){
         return true;
     }
     return false;
 }
 
-void lees_conf(){
-    //leest het configuratie bestand en importeert de waardes voor de tunnels, wumpus, bat en pit.
+void lees_tunnel(){
+    //leest het tunnel bestand en importeert de waardes voor de tunnels, wumpus, bat en pit.
     string line;
-    ifstream conf_bestand;
-    conf_bestand.open(bestandtunnel);
+    ifstream conf_tunnel_bestand;
+    conf_tunnel_bestand.open(bestandtunnel);
     for(int i = 0; i < 20;i++){
         vector<int> tmp;
         for(int j = 0; j < 3; j++){
-            getline (conf_bestand, line);
+            getline (conf_tunnel_bestand, line);
             kamers[i].push_back(stoi(line));
         }
     }
-    getline (conf_bestand, line);
+    getline (conf_tunnel_bestand, line);
     wumpus = stoi(line);
-    getline (conf_bestand, line);
+    getline (conf_tunnel_bestand, line);
     bat = stoi(line);
-    getline (conf_bestand, line);
+    getline (conf_tunnel_bestand, line);
     pit = stoi(line);
-    conf_bestand.close();
+    conf_tunnel_bestand.close();
     return;
 }
 
@@ -67,6 +68,7 @@ bool check_buur(const string& string_invoer){
             return false;
         }
     }
+    return false;
 }
 
 void verplaats(){
@@ -87,17 +89,30 @@ void verplaats(){
     return;
 }
 
+void verplaats_wumpus(){
+    srand( (unsigned)time(NULL) );
+    int x = (rand()%19)+1;
+    if(x == wumpus){
+        x++;
+    }
+    wumpus = x;
+}
+
 void schiet(){
     string string_invoer;
     cout << "\nWaar wil je heen schieten? ";
     getline (cin, string_invoer);
-    if(check_buur(string_invoer)){
+    if(check_buur(string_invoer) && pijlen > 0){
         int invoer = stoi(string_invoer);
         if(invoer == wumpus){
-            cout << "hit the wumput. you win!\n";
+            cout << "hit the wumput. you win! endgame\n";
+            exit(0);
         }else{
-            cout << "miss. wumpus moves.\n";
-        }
+            verplaats_wumpus();
+        }pijlen--;
+    }else if(pijlen <= 0){
+        cout << "je pijlen zijn op! endgame\n";
+        exit(0);
     }else{
         if(buur_error == "kan_niet"){
             cout << "\n" << "Je hiet niet heen schieten." << "\n";
@@ -106,33 +121,55 @@ void schiet(){
         }
     }cout << "\n";
     return;
-    //check of de pijl raak is
-    //zoniet verplaats wumpus naar wilekeurige kamer.
 }
 
-void test1(){
+bool ruik(){
+    vector<int> x;
+    for(int i = 0; i < kamers[wumpus-1].size(); i++){
+        if(kamers[wumpus-1][i] == locatie){
+            return true;
+        }
+        x.push_back(kamers[wumpus-1][i]);
+    }
+    for(int j = 0; j < x.size(); j++){
+        for(int l = 0; l < kamers[x[j]-1].size(); l++){
+            if(kamers[x[j]-1][l] == locatie){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void driver(){
+    if(locatie == wumpus){ //eindigt spel al speler op de zelfde locatie is als de wumpus
+        cout << "killed by wumpus.\n";
+        exit(0);
+    }else if(ruik()){
+        cout << "Je ruikt een wumpus.\n";
+    }
     cout << "Je bent in kamer: " << locatie << ". De tunnels lijden naar: ";    //cout locatie
     for(int i = 0; i < 3; i ++){    //For-loop die itereerd over de vector met kamers
             cout << kamers[locatie-1][i] << ", ";
     }
-    string string_invoer;
-    cout << "\nSchiet of verplaats (S of V)? ";
-    getline (cin, string_invoer);
-    if(string_invoer == "S" || string_invoer == "s"){
+    string string_invoer; // maakt de string voor de invoer
+    cout << "\nSchiet of verplaats (S of V)? "; //print de opties die de gebruiker kan doen
+    getline (cin, string_invoer); // leest de invoer can de gebruiker
+    if(string_invoer == "S" || string_invoer == "s"){ // kijkt of de gebruiker wil schieten
         schiet();
-    }else if(string_invoer == "V" || string_invoer == "v"){
+    }else if(string_invoer == "V" || string_invoer == "v"){ // kijkt of de gebruiker wil verplaatsen
         verplaats();
     }
     return;
 }
 
 int main(){
-    if(check_conf_leeg()){
+    if(check_tunnel_leeg()){
         cerr << "Error: leeg configuratie bestand. Voer eerst de configuratie uit.\n";
         exit(1);
     }
-    lees_conf();
+    lees_tunnel();
     while(true){
-        test1();
+        driver();
     }
 }
