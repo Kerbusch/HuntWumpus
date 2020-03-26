@@ -105,7 +105,7 @@ void schiet(){
     if(check_buur(string_invoer) && pijlen > 0){
         int invoer = stoi(string_invoer);
         if(invoer == wumpus){
-            cout << "hit the wumput. you win! endgame\n";
+            cout << "hit the wumpus. you win! endgame\n";
             exit(0);
         }else{
             verplaats_wumpus();
