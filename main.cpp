@@ -125,14 +125,14 @@ void schiet(){
 
 bool ruik(){
     vector<int> x;
-    for(int i = 0; i < kamers[wumpus-1].size(); i++){
+    for(unsigned int i = 0; i < kamers[wumpus-1].size(); i++){
         if(kamers[wumpus-1][i] == locatie){
             return true;
         }
         x.push_back(kamers[wumpus-1][i]);
     }
-    for(int j = 0; j < x.size(); j++){
-        for(int l = 0; l < kamers[x[j]-1].size(); l++){
+    for(unsigned int j = 0; j < x.size(); j++){
+        for(unsigned int l = 0; l < kamers[x[j]-1].size(); l++){
             if(kamers[x[j]-1][l] == locatie){
                 return true;
             }
