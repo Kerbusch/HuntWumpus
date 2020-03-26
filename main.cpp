@@ -124,6 +124,7 @@ void schiet(){
 }
 
 bool ruik(){
+    // deze funtie kijkt of de wumpus binnen 2 kamers en als dat zo is return hij true
     vector<int> x;
     for(unsigned int i = 0; i < kamers[wumpus-1].size(); i++){
         if(kamers[wumpus-1][i] == locatie){
@@ -142,10 +143,11 @@ bool ruik(){
 }
 
 void driver(){
-    if(locatie == wumpus){ //eindigt spel al speler op de zelfde locatie is als de wumpus
-        cout << "killed by wumpus.\n";
+    // deze funtie is de code die er voor zorgt dat het spel werkt.
+    if(locatie == wumpus){ //eindigt spel als speler op de zelfde locatie is als de wumpus
+        cout << "killed by wumpus. endgame\n";
         exit(0);
-    }else if(ruik()){
+    }else if(ruik()){ //kijkt of je wumpus kan ruiken
         cout << "Je ruikt een wumpus.\n";
     }
     cout << "Je bent in kamer: " << locatie << ". De tunnels lijden naar: ";    //cout locatie
