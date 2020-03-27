@@ -25,7 +25,7 @@ bool check_tunnel_leeg(){
 }
 
 void lees_tunnel(){
-    //leest het tunnel bestand en importeert de waardes voor de tunnels, wumpus, bat en pit.
+    //leest het tunnel bestand en importeert de waardes voor de tunnels, Wumpus, bat en pit.
     string line;
     ifstream conf_tunnel_bestand;
     conf_tunnel_bestand.open(bestandtunnel);
@@ -92,7 +92,7 @@ void verplaats(){
 }
 
 void verplaats_wumpus(){
-    // verplaatst de wumpus naar een random kamer.
+    // verplaatst de Wumpus naar een random kamer.
     srand( (unsigned)time(NULL) );
     int x = (rand()%19)+1;
     if(x == wumpus){
@@ -109,7 +109,7 @@ void schiet(){
     getline (cin, string_invoer);
     if(check_buur(string_invoer) && pijlen > 0){ // kijkt of de opgegeven kamer een buur is.
         int invoer = stoi(string_invoer);
-        if(invoer == wumpus){ // kijkt op de wumpus geraakt wordt.
+        if(invoer == wumpus){ // kijkt op de Wumpus geraakt wordt.
             cout << "Gefeliciteerd! Je hebt de Wumpus gedood! Winner winner chicken dinner!\n";
             exit(0);
         }else{
@@ -129,7 +129,7 @@ void schiet(){
 }
 
 bool ruik(){
-    // deze funtie kijkt of de wumpus binnen 2 kamers en als dat zo is return hij true
+    // deze funtie kijkt of de Wumpus binnen 2 kamers en als dat zo is return hij true
     vector<int> x;
     for(unsigned int i = 0; i < kamers[wumpus-1].size(); i++){
         if(kamers[wumpus-1][i] == locatie){
@@ -149,13 +149,13 @@ bool ruik(){
 
 void driver(){
     // deze funtie is de code die er voor zorgt dat het spel werkt.
-    if(locatie == wumpus){ //eindigt spel als speler op de zelfde locatie is als de wumpus
+    if(locatie == wumpus){ //eindigt spel als speler op de zelfde locatie is als de Wumpus
         cout << "Helaas je bent opgegeten door de Wumpus, GAME OVER!\n";
         exit(0);
-    }else if(ruik()){ //kijkt of je wumpus kan ruiken
-        cout << "Je ruikt een wumpus.\n";
+    }else if(ruik()){ //kijkt of je Wumpus kan ruiken
+        cout << "Je ruikt de Wumpus.\n";
     }
-    cout << "Je bent in kamer: " << locatie << ". De tunnels lijden naar: ";    //cout locatie
+    cout << "Je bent in kamer: " << locatie << ". De tunnels leiden naar kamers: ";    //cout locatie
     for(int i = 0; i < 3; i ++){    //For-loop die itereerd over de vector met kamers
             cout << kamers[locatie-1][i] << ", ";
     }
@@ -180,3 +180,6 @@ int main(){
         driver();
     }
 }
+
+// bugs:
+// als je schiet naar 5 vanaf 1 ruik je de wumpus. Als je naar andere kamers gaat blijft hij dit zeggen.
