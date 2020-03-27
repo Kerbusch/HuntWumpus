@@ -47,6 +47,7 @@ void lees_tunnel(){
 }
 
 bool check_buur(const string& string_invoer){
+    // kijkt of de ingevoerde waarde een buur is van de locatie van de speler.
     if(string_invoer.size() > 2){
         buur_error = "Geef waarde tussen 1 en 20.";
         return false;
@@ -72,6 +73,7 @@ bool check_buur(const string& string_invoer){
 }
 
 void verplaats(){
+    // verplaats de speler naar een andere kamer.
     string string_invoer;
     cout << "\nWaar wil je heen? ";
     getline (cin, string_invoer);
@@ -90,21 +92,24 @@ void verplaats(){
 }
 
 void verplaats_wumpus(){
+    // verplaatst de wumpus naar een random kamer.
     srand( (unsigned)time(NULL) );
     int x = (rand()%19)+1;
     if(x == wumpus){
         x++;
     }
     wumpus = x;
+    return;
 }
 
 void schiet(){
+    // schiet funtie
     string string_invoer;
     cout << "\nWaar wil je heen schieten? ";
     getline (cin, string_invoer);
-    if(check_buur(string_invoer) && pijlen > 0){
+    if(check_buur(string_invoer) && pijlen > 0){ // kijkt of de opgegeven kamer een buur is.
         int invoer = stoi(string_invoer);
-        if(invoer == wumpus){
+        if(invoer == wumpus){ // kijkt op de wumpus geraakt wordt.
             cout << "hit the wumpus. you win! endgame\n";
             exit(0);
         }else{
