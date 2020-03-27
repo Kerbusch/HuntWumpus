@@ -49,7 +49,7 @@ void lees_tunnel(){
 bool check_buur(const string& string_invoer){
     // kijkt of de ingevoerde waarde een buur is van de locatie van de speler.
     if(string_invoer.size() > 2){
-        buur_error = "Geef waarde tussen 1 en 20.";
+        buur_error = "Geef een waarde tussen 1 en 20.";
         return false;
     }else{
         try{
@@ -82,7 +82,7 @@ void verplaats(){
         locatie = invoer;
     }else{
         if(buur_error == "kan_niet"){
-            cout << "\n" << "Je hiet niet heen verplaatsen." << "\n";
+            cout << "\n" << "Je kan hier niet heen verplaatsen." << "\n";
         }else{
             cout << "\n" << buur_error << "\n";
         }
@@ -110,17 +110,17 @@ void schiet(){
     if(check_buur(string_invoer) && pijlen > 0){ // kijkt of de opgegeven kamer een buur is.
         int invoer = stoi(string_invoer);
         if(invoer == wumpus){ // kijkt op de wumpus geraakt wordt.
-            cout << "hit the wumpus. you win! endgame\n";
+            cout << "Gefeliciteerd! Je hebt de Wumpus gedood! Winner winner chicken dinner!\n";
             exit(0);
         }else{
             verplaats_wumpus();
         }pijlen--;
     }else if(pijlen <= 0){
-        cout << "je pijlen zijn op! endgame\n";
+        cout << "Je pijlen zijn op! GAME OVER!\n";
         exit(0);
     }else{
         if(buur_error == "kan_niet"){
-            cout << "\n" << "Je hiet niet heen schieten." << "\n";
+            cout << "\n" << "Je kan hier niet heen schieten." << "\n";
         }else{
             cout << "\n" << buur_error << "\n";
         }
@@ -150,7 +150,7 @@ bool ruik(){
 void driver(){
     // deze funtie is de code die er voor zorgt dat het spel werkt.
     if(locatie == wumpus){ //eindigt spel als speler op de zelfde locatie is als de wumpus
-        cout << "killed by wumpus. endgame\n";
+        cout << "Helaas je bent opgegeten door de Wumpus, GAME OVER!\n";
         exit(0);
     }else if(ruik()){ //kijkt of je wumpus kan ruiken
         cout << "Je ruikt een wumpus.\n";

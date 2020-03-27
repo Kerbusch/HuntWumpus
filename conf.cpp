@@ -12,7 +12,7 @@ int main(){
     string line;
     int wumpus_input, bat_input, pit_input;
     while(true){
-        cout << "in welke kamer moet de Wumpus zitten (1-20): ";
+        cout << "In welke kamer moet de Wumpus zitten (1-20)? ";
         cin >> wumpus_input; // 15
         if( wumpus_input >= 1 || wumpus_input <= 20){
             wumpus = wumpus_input;
@@ -20,23 +20,23 @@ int main(){
         }
     }
     while(true){
-        cout << "in welke kamer moet de bat zitten (1-20): ";
+        cout << "In welke kamer moet de bat zitten (1-20)? ";
         cin >> bat_input;
         if(( bat_input >= 1 || bat_input <= 20) && bat_input != wumpus){
             bat = bat_input;
             break;
         }else if(bat_input == wumpus){
-            cout << "de bat en de wumpus kunnen niet op de zelfde plaats zitten\n";
+            cout << "De bat en de wumpus kunnen niet op de zelfde plaats zitten.\n";
         }
     }
     while(true){
-        cout << "in welke kamer moet de pit zitten (1-20): ";
+        cout << "In welke kamer moet de pit zitten (1-20)? ";
         cin >> pit_input;
         if(( pit_input >= 1 || pit_input <= 20) && pit_input != wumpus && pit_input != bat){
             pit = pit_input;
             break;
         }else if(pit_input == wumpus || pit_input == bat){
-            cout << "de pit en de wumpus en / of bat kunnen niet op de zelfde plaats zitten\n";
+            cout << "De pit en de wumpus en / of bat kunnen niet op de zelfde plaats zitten.\n";
         }
     }
     ofstream myfile;
@@ -51,4 +51,6 @@ int main(){
     }
     myfile << wumpus << "\n" << bat << "\n" << pit;
     myfile.close();
+    return false;
+    
 }
