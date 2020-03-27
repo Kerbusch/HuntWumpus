@@ -113,6 +113,7 @@ void schiet(){
             cout << "Gefeliciteerd! Je hebt de Wumpus gedood! Winner winner chicken dinner!\n";
             exit(0);
         }else{
+            cout << "Mis! Je hebt de Wumpus gemist.\n";
             verplaats_wumpus();
         }pijlen--;
     }else if(pijlen <= 0){
