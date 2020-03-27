@@ -1,4 +1,4 @@
-# HuntWunpus
+# HuntWumpus
 Welkom bij “Hunt the Wumpus”
 De wumpus is een wezen wat leeft in een grot met 20 kamers. Iedere kamer heeft 3 tunnels die naar andere kamers leiden. (Kijk als voorbeeld naar een dodecahedron). Er zijn 3 gevaren in het spel.
 
