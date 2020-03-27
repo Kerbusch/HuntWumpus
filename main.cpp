@@ -184,3 +184,4 @@ int main(){
 
 // bugs:
 // als je schiet naar 5 vanaf 1 ruik je de wumpus. Als je naar andere kamers gaat blijft hij dit zeggen.
+// hallo daantje
