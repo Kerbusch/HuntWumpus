@@ -1,9 +1,4 @@
 #include <iostream>
-#include <vector>
-#include <fstream>
-#include <stdlib.h>
-#include <time.h>
-#include <stdio.h>
 #include <string>
 using namespace std;
 
