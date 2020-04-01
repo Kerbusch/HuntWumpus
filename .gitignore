@@ -3,3 +3,4 @@
 .vscode/settings.json
 main.exe
 conf.exe
+.vscode/launch.json
