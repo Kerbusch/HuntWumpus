@@ -1,10 +1,10 @@
 #include <iostream>
 #include <vector>
-#include <string>
 #include <fstream>
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
+#include <string>
 using namespace std;
 
 //Global variable
@@ -16,6 +16,7 @@ vector<int> valkuil = {};
 
 int pijlen = 5;
 string buur_error;
+vector<int> valkuil = {};
 
 bool check_tunnel_leeg(){
     //checkt of het tunnel bestand leeg is.
@@ -119,14 +120,14 @@ void schiet(){
         if(invoer == wumpus){ // kijkt op de Wumpus geraakt wordt.
             cout << "Gefeliciteerd! Je hebt de Wumpus gedood! Winner winner chicken dinner!\n";
             exit(0);
-        }else{
+        }
+        else{
             cout << "\nMis! Je hebt de Wumpus gemist.\n";
             verplaats_wumpus();
         }pijlen--;
-    }else if(pijlen <= 0){
-        cout << "Je pijlen zijn op! GAME OVER!\n";
-        exit(0);
-    }else{
+        cout << "Je hebt nog " << pijlen << " pijl(en) over.\n";
+    }
+    else{
         if(buur_error == "kan_niet"){
             cout << "\n" << "Je kan hier niet heen schieten." << "\n";
         }else{
@@ -154,13 +155,28 @@ bool ruik(){
     }
     return false;
 }
+bool valkuil(){
+    // deze functie kijkt of de speler in een valkuil terecht is gekomen.
+    if (valkuil == valkuil(i)){
+        return true;
+    }
+}
 
 void driver(){
     // deze funtie is de code die er voor zorgt dat het spel werkt.
     if(locatie == wumpus){ //eindigt spel als speler op de zelfde locatie is als de Wumpus
         cout << "Helaas je bent opgegeten door de Wumpus, GAME OVER!\n";
         exit(0);
-    }else if(ruik()){ //kijkt of je Wumpus kan ruiken
+    }
+    else if(pijlen <= 0){
+        cout << "Je pijlen zijn op! GAME OVER!\n";
+        exit(0);
+    }
+    else if(valkuil()){
+        cout << "Je ben in een put gevallen! GAME OVER!\n";
+        exit(0);
+    }
+    if(ruik()){ //kijkt of je Wumpus kan ruiken
         cout << "Je ruikt de Wumpus.\n";
     }
     cout << "Je bent in kamer: " << locatie << ". De tunnels leiden naar kamers: ";    //cout locatie
@@ -172,7 +188,8 @@ void driver(){
     getline (cin, string_invoer); // leest de invoer can de gebruiker
     if(string_invoer == "S" || string_invoer == "s"){ // kijkt of de gebruiker wil schieten
         schiet();
-    }else if(string_invoer == "V" || string_invoer == "v"){ // kijkt of de gebruiker wil verplaatsen
+    }
+    else if(string_invoer == "V" || string_invoer == "v"){ // kijkt of de gebruiker wil verplaatsen
         verplaats();
     }
     return;
