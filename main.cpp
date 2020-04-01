@@ -16,7 +16,6 @@ vector<int> valkuil = {};
 
 int pijlen = 5;
 string buur_error;
-vector<int> valkuil = {};
 
 bool check_tunnel_leeg(){
     //checkt of het tunnel bestand leeg is.
@@ -155,11 +154,14 @@ bool ruik(){
     }
     return false;
 }
-bool valkuil(){
+bool valkuil_check(){
     // deze functie kijkt of de speler in een valkuil terecht is gekomen.
-    if (valkuil == valkuil(i)){
-        return true;
+    for(int i = 0; i < valkuil.size(); i++){
+        if(valkuil[i] == locatie){
+            return true;
+        }
     }
+    return false;
 }
 
 void driver(){
@@ -172,7 +174,7 @@ void driver(){
         cout << "Je pijlen zijn op! GAME OVER!\n";
         exit(0);
     }
-    else if(valkuil()){
+    else if(valkuil_check()){
         cout << "Je ben in een put gevallen! GAME OVER!\n";
         exit(0);
     }
