@@ -7,8 +7,7 @@ using namespace std;
 
 string bestandtunnel = "tunnel.txt";
 vector<vector<int>> kamers = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
-int wumpus,bat1,bat2;
-vector<int> valkuil = {};
+int wumpus,bat1,bat2,valkuil1,valkuil2;
 
 bool check_conf_leeg(){
     ifstream conf_tunnel_bestand(bestandtunnel);
@@ -35,11 +34,10 @@ void lees_conf(){
     bat1 = stoi(line);
     getline (conf_tunnel_bestand, line); // bat2
     bat2 = stoi(line);
-    getline (conf_tunnel_bestand, line); // aantal valkuilen
-    for(int i = 0; i < stoi(line); i++){
-        getline (conf_tunnel_bestand, line);
-        valkuil.push_back(stoi(line));
-    }
+    getline (conf_tunnel_bestand, line); // valkuil1
+    valkuil1 = stoi(line);
+    getline (conf_tunnel_bestand, line); // valkuil1
+    valkuil2 = stoi(line);
     conf_tunnel_bestand.close();
     return;
 }

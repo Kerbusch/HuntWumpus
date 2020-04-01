@@ -11,8 +11,7 @@ using namespace std;
 int locatie = 1;
 string bestandtunnel = "tunnel.txt";
 vector<vector<int>> kamers = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
-int wumpus,bat1,bat2;
-vector<int> valkuil = {};
+int wumpus,bat1,bat2,valkuil1,valkuil2;
 
 int pijlen = 5;
 string buur_error;
@@ -44,11 +43,10 @@ void lees_tunnel(){
     bat1 = stoi(line);
     getline (conf_tunnel_bestand, line); // bat2
     bat2 = stoi(line);
-    getline (conf_tunnel_bestand, line); // aantal valkuilen
-    for(int i = 0; i < stoi(line); i++){
-        getline (conf_tunnel_bestand, line);
-        valkuil.push_back(stoi(line));
-    }
+    getline (conf_tunnel_bestand, line); // valkuil1
+    valkuil1 = stoi(line);
+    getline (conf_tunnel_bestand, line); // valkuil1
+    valkuil2 = stoi(line);
     conf_tunnel_bestand.close();
     return;
 }
@@ -154,12 +152,11 @@ bool ruik(){
     }
     return false;
 }
+
 bool valkuil_check(){
     // deze functie kijkt of de speler in een valkuil terecht is gekomen.
-    for(int i = 0; i < valkuil.size(); i++){
-        if(valkuil[i] == locatie){
-            return true;
-        }
+    if(locatie == valkuil1 || locatie == valkuil2){
+        return true;
     }
     return false;
 }
