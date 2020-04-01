@@ -14,6 +14,7 @@ vector<vector<int>> kamers = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}
 int wumpus,bat,pit;
 int pijlen = 5;
 string buur_error;
+vector<int> valkuil = {};
 
 bool check_tunnel_leeg(){
     //checkt of het tunnel bestand leeg is.
@@ -147,6 +148,12 @@ bool ruik(){
     }
     return false;
 }
+bool valkuil(){
+    // deze functie kijkt of de speler in een valkuil terecht is gekomen.
+    if (valkuil == valkuil(i)){
+        return true;
+    }
+}
 
 void driver(){
     // deze funtie is de code die er voor zorgt dat het spel werkt.
@@ -156,6 +163,10 @@ void driver(){
     }
     else if(pijlen <= 0){
         cout << "Je pijlen zijn op! GAME OVER!\n";
+        exit(0);
+    }
+    else if(valkuil()){
+        cout << "Je ben in een put gevallen! GAME OVER!\n";
         exit(0);
     }
     if(ruik()){ //kijkt of je Wumpus kan ruiken
