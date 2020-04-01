@@ -156,6 +156,20 @@ bool ruik(){
     return false;
 }
 
+bool hoorBat(){
+    // deze funtie kijkt of de bat binnen 1 kamers zit en als dat zo is return hij true
+    for(unsigned int i = 0; i < kamers[bat1-1].size(); i++){
+        if(kamers[bat1-1][i] == locatie){
+            return true;
+        }
+    }
+    for(unsigned int i = 0; i < kamers[bat2-1].size(); i++){
+        if(kamers[bat2-1][i] == locatie){
+            return true;
+        }
+    }
+    return false;
+}
 bool valkuil_check(){
     // deze functie kijkt of de speler in een valkuil terecht is gekomen.
     if(locatie == valkuil1 || locatie == valkuil2){
@@ -181,7 +195,10 @@ void driver(){
     if(ruik()){ //kijkt of je Wumpus kan ruiken
         cout << "Je ruikt de Wumpus.\n";
     }
-    cout << "Je bent in kamer: " << locatie << ". De tunnels leiden naar kamers: ";    //cout locatie
+    if(hoorBat()){ //kijkt of je bat hoort
+        cout << "Je hoort geflapper van de vleermuizen.\n";
+    }
+    cout << "\nJe bent in kamer: " << locatie << ". De tunnels leiden naar kamers: ";    //cout locatie
     for(int i = 0; i < 3; i ++){    //For-loop die itereerd over de vector met kamers
             cout << kamers[locatie-1][i] << ", ";
     }
