@@ -19,7 +19,7 @@ string buur_error;
 bool check_tunnel_leeg(){
     //checkt of het tunnel bestand leeg is.
     ifstream conf_tunnel_bestand(bestandtunnel);
-    if(conf_tunnel_bestand.peek() == std::ifstream::traits_type::eof()){
+    if(conf_tunnel_bestand.peek() == std::ifstream::traits_type::eof()){ // niet onze code
         return true;
     }
     return false;
