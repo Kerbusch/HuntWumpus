@@ -118,7 +118,7 @@ void schiet(){
     if(check_buur(string_invoer) && pijlen > 0){ // kijkt of de opgegeven kamer een buur is.
         int invoer = stoi(string_invoer);
         if(invoer == wumpus){ // kijkt op de Wumpus geraakt wordt.
-            cout << "Gefeliciteerd! Je hebt de Wumpus gedood! Winner winner chicken dinner!\n";
+            cout << "Gefeliciteerd! Je hebt de Wumpus gedood!\n";
             exit(0);
         }
         else{
@@ -177,6 +177,18 @@ bool valkuil_check(){
     }
     return false;
 }
+bool vleermuis_check(){
+    // deze functie kijkt of de speler in een kamer met een vleermuis is.
+    if(locatie == bat1 || locatie == bat2){
+        return true;
+    }
+    return false;
+}
+
+int random20(){
+    int x = rand() % 20 + 1;
+    return x;
+}
 
 bool vleermuis_check(){
     // deze functie kijkt of de speler in een kamer met een vleermuis is.
@@ -206,10 +218,9 @@ void driver(){
         exit(0);
     }
     else if(vleermuis_check()){
-        cout << "In deze kamer zit een supervleermuis, hij verplaatst je naar een andere kamer!\n\n";
         int random = random20();
         locatie = random;
-        cout << random << "\n";
+        cout << "In deze kamer zit een supervleermuis, hij verplaatst je naar kamer " << random << "!\n\n";
         return;
     }
 
