@@ -8,6 +8,8 @@ string bestandtunnel = "tunnel.txt";
 vector<vector<int>> kamers = {{2,5,8}, {1,3,10}, {2,4,12}, {3,5,14}, {1,4,6}, {5,7,13}, {6,8,17}, {1,7,9}, {8,10,18}, {2,9,11}, {10,12,19}, {3,11,13}, {12,14,20}, {4,13,15}, {6,14,16}, {15,17,20}, {7,16,18},{8,17,19}, {11,18,20}, {13,16,19}};
 int wumpus,bat,pit;
 
+int daan = 0;
+
 int main(){
     string line;
     int wumpus_input, bat_input, pit_input;
