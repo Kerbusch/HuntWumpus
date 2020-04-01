@@ -212,6 +212,7 @@ void driver(){
         cout << random << "\n";
         return;
     }
+
     if(ruik()){ //kijkt of je Wumpus kan ruiken
         cout << "Je ruikt de Wumpus.\n";
     }

@@ -3,9 +3,9 @@ Welkom bij “Hunt the Wumpus”
 De wumpus is een wezen wat leeft in een grot met 20 kamers. Iedere kamer heeft 3 tunnels die naar andere kamers leiden. (Kijk als voorbeeld naar een dodecahedron). Er zijn 3 gevaren in het spel.
 
 - Bodemloze putten:
-Twee kamers in het spel zijn een bodemloze put, als je erin valt kom je niet meer terug om hoog en verlies je het spel.
+Twee kamers in het spel zijn een bodemloze put, als je erin valt kom je niet meer terug om hoog en verlies je het spel. Wanneer je 1 kamer van 1 van deze putten verwijderd bent dan voel je een lichte wind.
 - Supervleermuizen:
-In twee andere kamers wonen de supervleermuizen. Als je in één van deze kamers terecht komt word je in een andere kamer gedropt. Dit kan nadelige gevolgen hebben.
+In twee andere kamers wonen de supervleermuizen. Als je in één van deze kamers terecht komt tillen de supervleermuizen je op en wordt je in een andere kamer gedropt. Dit kan nadelige gevolgen hebben. Wanneer je 1 kamer van 1 van de supervleermuizen kolonies verwijderd bent dan hoor je geflapper.
 - Wumpus:
 De Wumpus heeft geen last van deze gevaren, hij is te dik om via de put naar beneden te vallen, omdat hij zo dik is kunnen de vleermuizen hem ook niet optillen. Normaal slaapt de Wumpus, maar er zijn twee dingen die hem wakker kunnen maken, namelijk: jij die een pijl schiet of jij die in zijn kamer komt. Als de Wumpus wakker is kan hij gaan bewegen, dit gebeurt alleen als jij een pijl schiet maar de Wumpus niet raakt. Als hierna de Wumpus naar dezelfde kamer als jij verplaatst dan eet hij je op en verlies je het spel.
 
