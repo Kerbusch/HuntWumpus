@@ -117,7 +117,7 @@ void schiet(){
     getline (cin, string_invoer);
     if(check_buur(string_invoer) && pijlen > 0){ // kijkt of de opgegeven kamer een buur is.
         int invoer = stoi(string_invoer);
-        if(invoer == wumpus){ // kijkt op de Wumpus geraakt wordt.
+        if(invoer == wumpus){ // kijkt of de Wumpus geraakt wordt.
             cout << "Gefeliciteerd! Je hebt de Wumpus gedood!\n";
             exit(0);
         }
