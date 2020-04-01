@@ -178,6 +178,19 @@ bool valkuil_check(){
     return false;
 }
 
+bool vleermuis_check(){
+    // deze functie kijkt of de speler in een kamer met een vleermuis is.
+    if(locatie == bat1 || locatie == bat2){
+        return true;
+    }
+    return false;
+}
+
+int random20(){
+    int x = rand() % 20 + 1;
+    return x;
+}
+
 void driver(){
     // deze funtie is de code die er voor zorgt dat het spel werkt.
     if(locatie == wumpus){ //eindigt spel als speler op de zelfde locatie is als de Wumpus
@@ -192,6 +205,14 @@ void driver(){
         cout << "Je ben in een put gevallen! GAME OVER!\n";
         exit(0);
     }
+    else if(vleermuis_check()){
+        cout << "In deze kamer zit een supervleermuis, hij verplaatst je naar een andere kamer!\n\n";
+        int random = random20();
+        locatie = random;
+        cout << random << "\n";
+        return;
+    }
+
     if(ruik()){ //kijkt of je Wumpus kan ruiken
         cout << "Je ruikt de Wumpus.\n";
     }
