@@ -1,3 +1,5 @@
+#ifndef header_hpp
+#define header_hpp
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -15,6 +17,7 @@ int wumpus,bat1,bat2,valkuil1,valkuil2;
 
 int pijlen = 5;
 string buur_error;
+
 
 bool check_tunnel_leeg(){
     //checkt of het tunnel bestand leeg is.
@@ -153,12 +156,39 @@ bool ruik(){
     return false;
 }
 
+bool hoorBat(){
+    // deze funtie kijkt of de bat binnen 1 kamers zit en als dat zo is return hij true
+    for(unsigned int i = 0; i < kamers[bat1-1].size(); i++){
+        if(kamers[bat1-1][i] == locatie){
+            return true;
+        }
+    }
+    for(unsigned int i = 0; i < kamers[bat2-1].size(); i++){
+        if(kamers[bat2-1][i] == locatie){
+            return true;
+        }
+    }
+    return false;
+}
 bool valkuil_check(){
     // deze functie kijkt of de speler in een valkuil terecht is gekomen.
     if(locatie == valkuil1 || locatie == valkuil2){
         return true;
     }
     return false;
+}
+
+bool vleermuis_check(){
+    // deze functie kijkt of de speler in een kamer met een vleermuis is.
+    if(locatie == bat1 || locatie == bat2){
+        return true;
+    }
+    return false;
+}
+
+int random20(){
+    int x = rand() % 20 + 1;
+    return x;
 }
 
 void driver(){
@@ -175,10 +205,20 @@ void driver(){
         cout << "Je ben in een put gevallen! GAME OVER!\n";
         exit(0);
     }
+    else if(vleermuis_check()){
+        cout << "In deze kamer zit een supervleermuis, hij verplaatst je naar een andere kamer!\n\n";
+        int random = random20();
+        locatie = random;
+        cout << random << "\n";
+        return;
+    }
     if(ruik()){ //kijkt of je Wumpus kan ruiken
         cout << "Je ruikt de Wumpus.\n";
     }
-    cout << "Je bent in kamer: " << locatie << ". De tunnels leiden naar kamers: ";    //cout locatie
+    if(hoorBat()){ //kijkt of je bat hoort
+        cout << "Je hoort geflapper van de vleermuizen.\n";
+    }
+    cout << "\nJe bent in kamer: " << locatie << ". De tunnels leiden naar kamers: ";    //cout locatie
     for(int i = 0; i < 3; i ++){    //For-loop die itereerd over de vector met kamers
             cout << kamers[locatie-1][i] << ", ";
     }
@@ -194,18 +234,5 @@ void driver(){
     return;
 }
 
-int main(){
-    srand( (unsigned)time(NULL) );
-    if(check_tunnel_leeg()){
-        cerr << "Error: leeg configuratie bestand. Voer eerst de configuratie uit.\n";
-        exit(1);
-    }
-    lees_tunnel();
-    while(true){
-        driver();
-    }
-}
 
-// bugs:
-// als je schiet naar 5 vanaf 1 ruik je de wumpus. Als je naar andere kamers gaat blijft hij dit zeggen.
-
+#endif /* header_hpp */
