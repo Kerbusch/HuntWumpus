@@ -10,58 +10,78 @@ int wumpus,bat1,bat2,valkuil1,valkuil2;
 
 int main(){
     string line;
-    int wumpus_input, bat1_input, bat2_input,valkuil1_input, valkuil2_input;
+    int wumpus_input, bat1_input, bat2_input, valkuil1_input, valkuil2_input;
 
-    while(true){
+    while(true){ //wumpus
         cout << "In welke kamer moet de Wumpus zitten (1-20)? ";
-        cin >> wumpus_input; // 15
-        if( wumpus_input >= 1 || wumpus_input <= 20){
+        cin >> wumpus_input;
+        if( wumpus_input >= 1 && wumpus_input <= 20){
             wumpus = wumpus_input;
             break;
+        }else if(bat1_input < 1 && bat1_input > 20){
+            cout << "Geef een getal tussen de 1 en de 20.\n";
+        }else{
+            cerr << "error wumpus";
         }
     }
 
-    while(true){
+    while(true){ //bat 1
         cout << "In welke kamer moet de eerste bat zitten (1-20)? ";
         cin >> bat1_input;
-        if(( bat1_input >= 1 || bat1_input <= 20) && bat1_input != wumpus){
+        if(( bat1_input >= 1 && bat1_input <= 20) && bat1_input != wumpus){
             bat1 = bat1_input;
             break;
+        }else if(bat1_input < 1 && bat1_input > 20){
+            cout << "Geef een getal tussen de 1 en de 20.\n";
         }else if(bat1_input == wumpus){
-            cout << "De 1ste bat en de wumpus kunnen niet op de zelfde plaats zitten.\n";
+            cout << "Deze kamer is al in gebruik. Kies een andere kamer.\n";
+        }else{
+            cerr << "error bat1";
         }
     }
     
-    while(true){
+    while(true){ // bat 2
         cout << "In welke kamer moet de tweede bat zitten (1-20)? ";
         cin >> bat2_input;
-        if(( bat2_input >= 1 || bat2_input <= 20) && bat2_input != wumpus && bat2_input != bat1){
+        if(( bat2_input >= 1 && bat2_input <= 20) && bat2_input != wumpus && bat2_input != bat1 ){
             bat2 = bat2_input;
             break;
+        }else if(bat1_input < 1 && bat1_input > 20){
+            cout << "Geef een getal tussen de 1 en de 20.\n";
         }else if(bat2_input == wumpus || bat2_input == bat1){
-            cout << "De 2e bat en de wumpus en / of 1ste bat kunnen niet op de zelfde plaats zitten.\n";
+            cout << "Deze kamer is al in gebruik. Kies een andere kamer.\n";
+        }else{
+            cerr << "error bat2";
         }
     }
 
     while(true){ //valkuil 1
-        cout << "In welke kamer moet de tweede bat zitten (1-20)? ";
+        cout << "In welke kamer moet de eerste valkuil zitten (1-20)? ";
         cin >> valkuil1_input;
-        if(( valkuil1_input >= 1 || valkuil1_input <= 20) && valkuil1_input != wumpus && valkuil1_input != bat1 && valkuil1_input != bat2){
+        if(( valkuil1_input >= 1 && valkuil1_input <= 20) && valkuil1_input != wumpus && valkuil1_input != bat1 && valkuil1_input != bat2){
             valkuil1 = valkuil1_input;
             break;
+        }else if(bat1_input < 1 && bat1_input > 20){
+            cout << "Geef een getal tussen de 1 en de 20.\n";
         }else if(valkuil1_input == wumpus || valkuil1_input == bat1 || valkuil1_input == bat2){
-            cout << "De 2e bat en de wumpus en / of 1ste bat kunnen niet op de zelfde plaats zitten.\n";
+            cout << "Deze kamer is al in gebruik. Kies een andere kamer.\n";
+        }else{
+            cerr << "error valkuil1";
         }
     }
 
     while(true){ //valkuil 2
-        cout << "In welke kamer moet de tweede bat zitten (1-20)? ";
+        cout << "In welke kamer moet de tweede valkuil zitten (1-20)? ";
         cin >> valkuil2_input;
-        if(( valkuil2_input >= 1 || valkuil2_input <= 20) && valkuil2_input != wumpus && valkuil2_input != bat1 && valkuil2_input != bat2 && valkuil2_input != valkuil1){
+        if(( valkuil2_input >= 1 && valkuil2_input <= 20) && valkuil2_input != wumpus && valkuil2_input != bat1 && valkuil2_input != bat2 && valkuil2_input != valkuil1){
             valkuil2 = valkuil2_input;
             break;
+        }else if(bat1_input < 1 && bat1_input > 20){
+            cout << "Geef een getal tussen de 1 en de 20.\n";
         }else if(valkuil2_input == wumpus || valkuil2_input == bat1 || valkuil2_input == bat2 || valkuil2_input == valkuil1){
-            cout << "De 2e bat en de wumpus en / of 1ste bat kunnen niet op de zelfde plaats zitten.\n";
+            cout << "Deze kamer is al in gebruik. Kies een andere kamer.\n";
+        }else{
+            cerr << "error valkuil2";
         }
     }
     
