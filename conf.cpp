@@ -114,15 +114,15 @@ void make_valkuil2(){
     return;
 }
 
-void schrijf_tunnel(){
+void schrijf_tunnel(const vector<vector<int>>& kamers){
     ofstream myfile;
     myfile.open(bestandtunnel);
     myfile << "";
     myfile.close();
     myfile.open(bestandtunnel, ofstream::app);
-    for(int i = 0; i < kamers_hand.size();i++){
-        for(int j = 0; j < kamers_hand[i].size(); j++){
-            myfile << kamers_hand[i][j] << "\n";
+    for(int i = 0; i < kamers.size();i++){
+        for(int j = 0; j < kamers[i].size(); j++){
+            myfile << kamers[i][j] << "\n";
         }
     }
     myfile << wumpus << "\n";
@@ -140,7 +140,7 @@ void driver_hand(){
     make_bat2();
     make_valkuil1();
     make_valkuil2();
-    schrijf_tunnel();
+    schrijf_tunnel(kamers_hand);
     exit(0);
     return;
 }
@@ -154,19 +154,22 @@ bool testx(int x, const int& random){
     for(int j = 0; j < kamers_rand[x].size(); j++){
         if(kamers_rand[x][j] == random){
             return true;
-            //als de tunnel al bestaat
         }
     }
     return false;
 }
 
-void generate_tunnels(){
+void generate_tunnels(){ // hij loopt vaak en als hij loopt zit hij vast omdat hij als enige optie heeft om een kamer met zich zelf te verbinden. dus nummer allemaal op 3 behalve 1
     int random;
     vector<int> nummers = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     for(int i = 0; i < 20; i++){
-        while(kamers_rand[i].size() < 3 && nummers[i] < 3){
-            random = random20(); // zitten in 1 en krijgen 18
-            if(testx(i, random) == false && nummers[random-1] < 3){
+        cout << i << "--for\n";
+        for(int i = 0; i < kamers_rand.size(); i++){cout << nummers[i]<< ",";}cout << "\n";
+        while(kamers_rand[i].size() < 3){
+            cout << "--try\n";
+            cout << kamers_rand[i].size() << "--while\n";
+            random = random20();
+            if(testx(i, random) == false && nummers[random-1] < 3 && random != i+1){
                 kamers_rand[i].push_back(random); //
                 nummers[i]++;
                 kamers_rand[random-1].push_back(i+1);
@@ -174,30 +177,72 @@ void generate_tunnels(){
             }
         }
     }
+    for(int i = 0; i < kamers_rand.size(); i++){cout << nummers[i]<< ",";}cout << "\n";
+    cout << "--tunnnel 1\n";
+    //for(int i = 0; i < kamers_rand.size(); i++){
+    //    for(int j = 0; j < kamers_rand[i].size(); j++){
+    //        cout << kamers_rand[i][j] << ",";
+    //    }
+    //    cout << "\n";
+    //}
     return;
 }
 
+bool check_item_conflict(const int& random){ // true als er een conflict is anders false
+    if(random == wumpus || random == bat1 || random == bat2 || random == valkuil1 || random == valkuil2){
+        return true;
+    }
+    return false;
+}
+
 void generate_items(){
-    make_wumpus();
-    make_bat1();
-    make_bat2();
-    make_valkuil1();
-    make_valkuil2();
+    int random;
+    wumpus = random20();
+    while(true){
+        random = random20();
+        if(not check_item_conflict(random)){
+            bat1 = random;
+            break;
+        }
+    }
+    while(true){
+        random = random20();
+        if(not check_item_conflict(random)){
+            bat2 = random;
+            break;
+        }
+    }
+    while(true){
+        random = random20();
+        if(not check_item_conflict(random)){
+            valkuil1 = random;
+            break;
+        }
+    }
+    while(true){
+        random = random20();
+        if(not check_item_conflict(random)){
+            valkuil2 = random;
+            break;
+        }
+    }
     return;
 }
 
 void driver_random(){
     srand( (unsigned)time(NULL) );
+    cout << "1\n";
     generate_tunnels();
+    cout << "2\n";
     generate_items();
-    schrijf_tunnel();
+    //schrijf_tunnel(kamers_rand);
     exit(0);
     return;
 }
 
 int main(){
     string line;
-    cout << "hand of random: ";
+    cout << "Wil je de voorgedefinieerde tunnels gebruiken of ze random genergen?\n(voor of random): ";
     getline (cin, line);
     if(line == "hand"){
         driver_hand();
