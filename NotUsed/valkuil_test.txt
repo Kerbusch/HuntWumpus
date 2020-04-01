@@ -1,0 +1,21 @@
+    while(true){
+        bool val_error = false;
+        cout << "In welke kamer moet een valkuil zitten (1-20)?\nType 0 als je klaar bent met de valkuilen. ";
+        cin >> valkuil_input;
+        if(valkuil_input == wumpus || valkuil_input == bat1 || valkuil_input == bat2){
+            cout << "De valkuil kan hier niet zitten probeer een andere plek.\n";
+            val_error == true;
+        }
+        for(int i = 0; i < valkuil.size(); i++){
+            if(valkuil_input == valkuil[i]){
+                cout << "De valkuil kan hier niet zitten probeer een andere plek.\n";
+                val_error == true;
+            }
+        }
+        if(( valkuil_input >= 1 || valkuil_input <= 20) && val_error == false){
+            valkuil.push_back(valkuil_input);
+        }
+        if(valkuil_input == 0){
+            break;
+        }
+    }
