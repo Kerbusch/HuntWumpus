@@ -16,7 +16,21 @@ vector<vector<int>> kamers = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}
 int wumpus,bat1,bat2,valkuil1,valkuil2;
 int pijlen = 5;
 string buur_error;
+string instructies = "instructie.txt";
 
+void lees_instructie(){
+    string invoer, line;
+    cout << "Wil je instructies(y/n)? ";
+    getline (cin, invoer);
+    if(invoer == "y" || invoer == "yes" || invoer == "Y" || invoer == "YES" || invoer == "Yes"){
+        ifstream read_bestand;
+        read_bestand.open(instructies);
+        while(getline ( read_bestand, line)){
+            cout << line << "\n";
+        }
+    }
+    return;
+}
 int random20(){
     int x = rand() % 20 + 1;
     return x;
@@ -234,7 +248,7 @@ void driver(){
     }
 
     if(ruik()){ //kijkt of je Wumpus kan ruiken
-        cout << "Je ruikt de Wumpus.\n";
+        cout << "\n" << "Je ruikt de Wumpus.\n";
     }
     if(hoorBat()){ //kijkt of je bat hoort
         cout << "Je hoort geflapper van een Supervleermuis.\n";
