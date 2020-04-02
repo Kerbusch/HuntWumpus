@@ -4,6 +4,7 @@
 #include <fstream>
 #include <time.h>
 #include <stdio.h>
+#include <stdlib.h>
 using namespace std;
 
 string bestandtunnel = "tunnel.txt";
@@ -21,7 +22,7 @@ void make_wumpus(){
         if( input >= 1 && input <= 20){
             wumpus = input;
             break;
-        }else if(input < 1 && input > 20){
+        }else if(input < 1 || input > 20){
             cout << "Geef een getal tussen de 1 en de 20.\n";
         }else{
             cerr << "error wumpus";
@@ -40,7 +41,7 @@ void make_bat1(){
         if(( input >= 1 && input <= 20) && input != wumpus){
             vleermuis1 = input;
             break;
-        }else if(input < 1 && input > 20){
+        }else if(input < 1 || input > 20){
             cout << "Geef een getal tussen de 1 en de 20.\n";
         }else if(input == wumpus){
             cout << "Deze kamer is al in gebruik. Kies een andere kamer.\n";
@@ -61,7 +62,7 @@ void make_bat2(){
         if(( input >= 1 && input <= 20) && input != wumpus && input != vleermuis1 ){
             vleermuis2 = input;
             break;
-        }else if(input < 1 && input > 20){
+        }else if(input < 1 || input > 20){
             cout << "Geef een getal tussen de 1 en de 20.\n";
         }else if(input == wumpus || input == vleermuis1){
             cout << "Deze kamer is al in gebruik. Kies een andere kamer.\n";
@@ -82,7 +83,7 @@ void make_valkuil1(){
         if(( input >= 1 && input <= 20) && input != wumpus && input != vleermuis1 && input != vleermuis2){
             valkuil1 = input;
             break;
-        }else if(input < 1 && input > 20){
+        }else if(input < 1 || input > 20){
             cout << "Geef een getal tussen de 1 en de 20.\n";
         }else if(input == wumpus || input == vleermuis1 || input == vleermuis2){
             cout << "Deze kamer is al in gebruik. Kies een andere kamer.\n";
@@ -103,7 +104,7 @@ void make_valkuil2(){
         if(( input >= 1 && input <= 20) && input != wumpus && input != vleermuis1 && input != vleermuis2 && input != valkuil1){
             valkuil2 = input;
             break;
-        }else if(input < 1 && input > 20){
+        }else if(input < 1 || input > 20){
             cout << "Geef een getal tussen de 1 en de 20.\n";
         }else if(input == wumpus || input == vleermuis1 || input == vleermuis2 || input == valkuil1){
             cout << "Deze kamer is al in gebruik. Kies een andere kamer.\n";
