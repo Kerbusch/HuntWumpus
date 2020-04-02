@@ -17,6 +17,10 @@ int wumpus,bat1,bat2,valkuil1,valkuil2;
 int pijlen = 5;
 string buur_error;
 
+int random20(){
+    int x = rand() % 20 + 1;
+    return x;
+}
 
 bool check_tunnel_leeg(){
     //checkt of het tunnel bestand leeg is.
@@ -100,12 +104,13 @@ void verplaats(){
 
 void verplaats_wumpus(){
     // verplaatst de Wumpus naar een random kamer.
-    srand( (unsigned)time(NULL) );
-    int x = (rand()%19)+1;
-    if(x == wumpus){
-        x++;
+    int x = random20();
+    while(true){
+        if(x != wumpus && x != bat1 && x != bat2 && x != valkuil1 && x != valkuil2){
+            wumpus = x;
+            break;
+        }
     }
-    wumpus = x;
     return;
 }
 
@@ -198,11 +203,6 @@ bool vleermuis_check(){
         return true;
     }
     return false;
-}
-
-int random20(){
-    int x = rand() % 20 + 1;
-    return x;
 }
 
 void driver(){
