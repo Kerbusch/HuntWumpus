@@ -170,6 +170,22 @@ bool hoorBat(){
     }
     return false;
 }
+
+bool voelWind(){
+    // deze funtie kijkt of de valkuil binnen 1 kamers zit en als dat zo is return hij true
+    for(unsigned int i = 0; i < kamers[valkuil1-1].size(); i++){
+        if(kamers[valkuil1-1][i] == locatie){
+            return true;
+        }
+    }
+    for(unsigned int i = 0; i < kamers[valkuil2-1].size(); i++){
+        if(kamers[valkuil2-1][i] == locatie){
+            return true;
+        }
+    }
+    return false;
+}
+
 bool valkuil_check(){
     // deze functie kijkt of de speler in een valkuil terecht is gekomen.
     if(locatie == valkuil1 || locatie == valkuil2){
@@ -205,9 +221,14 @@ void driver(){
         exit(0);
     }
     else if(vleermuis_check()){
-        int random = random20();
-        locatie = random;
-        cout << "In deze kamer zit een Supervleermuis, hij verplaatst je naar kamer " << random << "!\n\n";
+        while(true){
+            int random = random20();
+            if(random != bat1 && random != bat2){
+                locatie = random;
+                cout << "In deze kamer zit een Supervleermuis, hij verplaatst je naar kamer " << random << "!\n\n";
+                break;
+            }
+        }
         return;
     }
 
@@ -216,6 +237,9 @@ void driver(){
     }
     if(hoorBat()){ //kijkt of je bat hoort
         cout << "Je hoort geflapper van een Supervleermuis.\n";
+    }
+    if(voelWind()){ //kijkt of je wind voelt
+        cout << "Je voelt een lichte bries.\n";
     }
     cout << "\nJe bent in kamer: " << locatie << ". De tunnels leiden naar kamers: ";    //cout locatie
     for(int i = 0; i < 3; i ++){    //For-loop die itereerd over de vector met kamers
