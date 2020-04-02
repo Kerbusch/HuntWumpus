@@ -19,6 +19,7 @@ int main(){
             break;
         }
     }
+    lees_instructie();
     while(true){
         driver();
     }
