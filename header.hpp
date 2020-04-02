@@ -205,9 +205,14 @@ void driver(){
         exit(0);
     }
     else if(vleermuis_check()){
-        int random = random20();
-        locatie = random;
-        cout << "In deze kamer zit een Supervleermuis, hij verplaatst je naar kamer " << random << "!\n\n";
+        while(true){
+            int random = random20();
+            if(random != bat1 && random != bat2){
+                locatie = random;
+                cout << "In deze kamer zit een Supervleermuis, hij verplaatst je naar kamer " << random << "!\n\n";
+                break;
+            }
+        }
         return;
     }
 
