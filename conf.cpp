@@ -10,8 +10,7 @@ string bestandtunnel = "tunnel.txt";
 
 vector<vector<int>> kamers_hand = {{2,5,8}, {1,3,10}, {2,4,12}, {3,5,14}, {1,4,6}, {5,7,15}, {6,8,17}, {1,7,9}, {8,10,18}, {2,9,11}, {10,12,19}, {3,11,13}, {12,14,20}, {4,13,15}, {6,14,16}, {15,17,20}, {7,16,18},{9,17,19}, {11,18,20}, {13,16,19}};
 vector<vector<int>> kamers_rand = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
-
-int wumpus,bat1,bat2,valkuil1,valkuil2;
+int wumpus,vleermuis1,vleermuis2,valkuil1,valkuil2;
 
 void make_wumpus(){
     string line;
@@ -39,14 +38,14 @@ void make_bat1(){
         cout << "In welke kamer moet de eerste bat zitten (1-20)? ";
         cin >> input;
         if(( input >= 1 && input <= 20) && input != wumpus){
-            bat1 = input;
+            vleermuis1 = input;
             break;
         }else if(input < 1 && input > 20){
             cout << "Geef een getal tussen de 1 en de 20.\n";
         }else if(input == wumpus){
             cout << "Deze kamer is al in gebruik. Kies een andere kamer.\n";
         }else{
-            cerr << "error bat1";
+            cerr << "error vleermuis1";
             exit(1);
         }
     }
@@ -59,15 +58,15 @@ void make_bat2(){
     while(true){ // bat 2
         cout << "In welke kamer moet de tweede bat zitten (1-20)? ";
         cin >> input;
-        if(( input >= 1 && input <= 20) && input != wumpus && input != bat1 ){
-            bat2 = input;
+        if(( input >= 1 && input <= 20) && input != wumpus && input != vleermuis1 ){
+            vleermuis2 = input;
             break;
         }else if(input < 1 && input > 20){
             cout << "Geef een getal tussen de 1 en de 20.\n";
-        }else if(input == wumpus || input == bat1){
+        }else if(input == wumpus || input == vleermuis1){
             cout << "Deze kamer is al in gebruik. Kies een andere kamer.\n";
         }else{
-            cerr << "error bat2";
+            cerr << "error vleermuis2";
             exit(1);
         }
     }
@@ -80,12 +79,12 @@ void make_valkuil1(){
     while(true){ //valkuil 1
         cout << "In welke kamer moet de eerste valkuil zitten (1-20)? ";
         cin >> input;
-        if(( input >= 1 && input <= 20) && input != wumpus && input != bat1 && input != bat2){
+        if(( input >= 1 && input <= 20) && input != wumpus && input != vleermuis1 && input != vleermuis2){
             valkuil1 = input;
             break;
         }else if(input < 1 && input > 20){
             cout << "Geef een getal tussen de 1 en de 20.\n";
-        }else if(input == wumpus || input == bat1 || input == bat2){
+        }else if(input == wumpus || input == vleermuis1 || input == vleermuis2){
             cout << "Deze kamer is al in gebruik. Kies een andere kamer.\n";
         }else{
             cerr << "error valkuil1";
@@ -101,12 +100,12 @@ void make_valkuil2(){
     while(true){ //valkuil 2
         cout << "In welke kamer moet de tweede valkuil zitten (1-20)? ";
         cin >> input;
-        if(( input >= 1 && input <= 20) && input != wumpus && input != bat1 && input != bat2 && input != valkuil1){
+        if(( input >= 1 && input <= 20) && input != wumpus && input != vleermuis1 && input != vleermuis2 && input != valkuil1){
             valkuil2 = input;
             break;
         }else if(input < 1 && input > 20){
             cout << "Geef een getal tussen de 1 en de 20.\n";
-        }else if(input == wumpus || input == bat1 || input == bat2 || input == valkuil1){
+        }else if(input == wumpus || input == vleermuis1 || input == vleermuis2 || input == valkuil1){
             cout << "Deze kamer is al in gebruik. Kies een andere kamer.\n";
         }else{
             cerr << "error valkuil2";
@@ -128,8 +127,8 @@ void schrijf_tunnel(const vector<vector<int>>& kamers){
         }
     }
     myfile << wumpus << "\n";
-    myfile << bat1 << "\n";
-    myfile << bat2 << "\n";
+    myfile << vleermuis1 << "\n";
+    myfile << vleermuis2 << "\n";
     myfile << valkuil1 << "\n";
     myfile << valkuil2 << "\n";
     myfile.close();
@@ -147,12 +146,18 @@ void driver_hand(){
     return;
 }
 
+//code voor random
+
 int random20(){
     int x = rand() % 20 + 1;
     return x;
 }
 
-bool testx(int x, const int& random){
+int random_gen(int x){
+    return rand() % (20-x) + (1+x);
+}
+
+bool check_limit(int x, const int& random){
     for(int j = 0; j < kamers_rand[x].size(); j++){
         if(kamers_rand[x][j] == random){
             return true;
@@ -161,37 +166,37 @@ bool testx(int x, const int& random){
     return false;
 }
 
-void generate_tunnels(){ // hij loopt vaak en als hij loopt zit hij vast omdat hij als enige optie heeft om een kamer met zich zelf te verbinden. dus nummer allemaal op 3 behalve 1
-    int random;
+bool generate_tunnels(){ // hij loopt vaak en als hij loopt zit hij vast omdat hij als enige optie heeft om een kamer met zich zelf te verbinden. dus nummer allemaal op 3 behalve 1
+    kamers_rand = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
+    int random, trys;
     vector<int> nummers = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     for(int i = 0; i < 20; i++){
-        cout << i << "--for\n";
-        for(int i = 0; i < kamers_rand.size(); i++){cout << nummers[i]<< ",";}cout << "\n";
+        trys = 0;
         while(kamers_rand[i].size() < 3){
-            cout << "--try\n";
-            cout << kamers_rand[i].size() << "--while\n";
-            random = random20();
-            if(testx(i, random) == false && nummers[random-1] < 3 && random != i+1){
+            if(trys > 20){
+                return false;
+            }
+            random = random_gen(i);
+            if(check_limit(i, random) == false && nummers[random-1] < 3 && random != i+1){
                 kamers_rand[i].push_back(random); //
                 nummers[i]++;
                 kamers_rand[random-1].push_back(i+1);
                 nummers[random-1]++;
             }
+            trys++;
         }
     }
-    for(int i = 0; i < kamers_rand.size(); i++){cout << nummers[i]<< ",";}cout << "\n";
-    cout << "--tunnnel 1\n";
     //for(int i = 0; i < kamers_rand.size(); i++){
     //    for(int j = 0; j < kamers_rand[i].size(); j++){
     //        cout << kamers_rand[i][j] << ",";
     //    }
     //    cout << "\n";
     //}
-    return;
+    return true;
 }
 
 bool check_item_conflict(const int& random){ // true als er een conflict is anders false
-    if(random == wumpus || random == bat1 || random == bat2 || random == valkuil1 || random == valkuil2){
+    if(random == wumpus || random == vleermuis1 || random == vleermuis2 || random == valkuil1 || random == valkuil2){
         return true;
     }
     return false;
@@ -203,14 +208,14 @@ void generate_items(){
     while(true){
         random = random20();
         if(not check_item_conflict(random)){
-            bat1 = random;
+            vleermuis1 = random;
             break;
         }
     }
     while(true){
         random = random20();
         if(not check_item_conflict(random)){
-            bat2 = random;
+            vleermuis2 = random;
             break;
         }
     }
@@ -233,11 +238,15 @@ void generate_items(){
 
 void driver_random(){
     srand( (unsigned)time(NULL) );
-    cout << "1\n";
-    generate_tunnels();
-    cout << "2\n";
+    while(true){
+        if(generate_tunnels()){
+            cout << "done\n";
+            break;
+        }
+        cout << "error: retrying\n";
+    }
     generate_items();
-    //schrijf_tunnel(kamers_rand);
+    schrijf_tunnel(kamers_rand);
     exit(0);
     return;
 }
@@ -246,7 +255,7 @@ int main(){
     string line;
     cout << "Wil je de voorgedefinieerde tunnels gebruiken of ze random genergen?\n(voor of random): ";
     getline (cin, line);
-    if(line == "hand"){
+    if(line == "voor"){
         driver_hand();
     }else if(line == "random"){
         driver_random();
