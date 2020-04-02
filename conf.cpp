@@ -13,110 +13,96 @@ vector<vector<int>> kamers_hand = {{2,5,8}, {1,3,10}, {2,4,12}, {3,5,14}, {1,4,6
 vector<vector<int>> kamers_rand = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
 int wumpus,vleermuis1,vleermuis2,valkuil1,valkuil2;
 
-void make_wumpus(){
+int check_input(const string& input){ //checkt of de locatie waar de gebruiker het item wil plaatsen kan en of er geen conflict
+    try{
+        int x = stoi(input);
+        if(x == wumpus || x == vleermuis1 || x == vleermuis2 || x == valkuil1 || x == valkuil2){
+            cout << "De locatie mag niet het zelfde zijn als de andere items.\n\n";
+            return -1;
+        }else if(x < 1 || x > 20){
+            cout << "Geef een getal tussen de 1 en de 20.\n\n";
+            return -1;
+        }else{
+            return x;
+        }
+    }catch(std::invalid_argument){
+        cout << "Geef alleen numerieke tekens.\n\n";
+        return -1;
+    }
+    return -1;
+}
+
+void make_wumpus(){ //vraagt de gebruiker waar de wumpus moet zitten
     string line;
-    int input;
-    while(true){ //wumpus
+    while(true){
         cout << "In welke kamer moet de Wumpus zitten (1-20)? ";
-        cin >> input;
-        if( input >= 1 && input <= 20){
-            wumpus = input;
+        getline (cin, line);
+        int x = check_input(line);
+        if(x != -1){
+            wumpus = x;
             break;
-        }else if(input < 1 || input > 20){
-            cout << "Geef een getal tussen de 1 en de 20.\n";
-        }else{
-            cerr << "error wumpus";
-            exit(1);
         }
     }
     return;
 }
 
-void make_bat1(){
+void make_vleermuis1(){ //vraagt de gebruiker waar de 1e vleermuis moet zitten
     string line;
-    int input;
-    while(true){ //bat 1
-        cout << "In welke kamer moet de eerste bat zitten (1-20)? ";
-        cin >> input;
-        if(( input >= 1 && input <= 20) && input != wumpus){
-            vleermuis1 = input;
+    while(true){
+        cout << "In welke kamer moet de eerste vleermuis zitten (1-20)? ";
+        getline (cin, line);
+        int x = check_input(line);
+        if(x != -1){
+            vleermuis1 = x;
             break;
-        }else if(input < 1 || input > 20){
-            cout << "Geef een getal tussen de 1 en de 20.\n";
-        }else if(input == wumpus){
-            cout << "Deze kamer is al in gebruik. Kies een andere kamer.\n";
-        }else{
-            cerr << "error vleermuis1";
-            exit(1);
         }
     }
     return;
 }
 
-void make_bat2(){
+void make_vleermuis2(){ //vraagt de gebruiker waar de 2e vleermuis moet zitten
     string line;
-    int input;
-    while(true){ // bat 2
-        cout << "In welke kamer moet de tweede bat zitten (1-20)? ";
-        cin >> input;
-        if(( input >= 1 && input <= 20) && input != wumpus && input != vleermuis1 ){
-            vleermuis2 = input;
+    while(true){
+        cout << "In welke kamer moet de tweede vleermuis zitten (1-20)? ";
+        getline (cin, line);
+        int x = check_input(line);
+        if(x != -1){
+            vleermuis2 = x;
             break;
-        }else if(input < 1 || input > 20){
-            cout << "Geef een getal tussen de 1 en de 20.\n";
-        }else if(input == wumpus || input == vleermuis1){
-            cout << "Deze kamer is al in gebruik. Kies een andere kamer.\n";
-        }else{
-            cerr << "error vleermuis2";
-            exit(1);
         }
     }
     return;
 }
 
-void make_valkuil1(){
+void make_valkuil1(){ //vraagt de gebruiker waar de 1e valkuil moet zitten
     string line;
-    int input;
-    while(true){ //valkuil 1
+    while(true){
         cout << "In welke kamer moet de eerste valkuil zitten (1-20)? ";
-        cin >> input;
-        if(( input >= 1 && input <= 20) && input != wumpus && input != vleermuis1 && input != vleermuis2){
-            valkuil1 = input;
+        getline (cin, line);
+        int x = check_input(line);
+        if(x != -1){
+            valkuil1 = x;
             break;
-        }else if(input < 1 || input > 20){
-            cout << "Geef een getal tussen de 1 en de 20.\n";
-        }else if(input == wumpus || input == vleermuis1 || input == vleermuis2){
-            cout << "Deze kamer is al in gebruik. Kies een andere kamer.\n";
-        }else{
-            cerr << "error valkuil1";
-            exit(1);
         }
     }
     return;
 }
 
-void make_valkuil2(){
+void make_valkuil2(){ //vraagt de gebruiker waar de 2e valkuil moet zitten
     string line;
-    int input;
-    while(true){ //valkuil 2
+    while(true){ 
         cout << "In welke kamer moet de tweede valkuil zitten (1-20)? ";
-        cin >> input;
-        if(( input >= 1 && input <= 20) && input != wumpus && input != vleermuis1 && input != vleermuis2 && input != valkuil1){
-            valkuil2 = input;
+        getline (cin, line);
+        int x = check_input(line);
+        if(x != -1){
+            valkuil2 = x;
             break;
-        }else if(input < 1 || input > 20){
-            cout << "Geef een getal tussen de 1 en de 20.\n";
-        }else if(input == wumpus || input == vleermuis1 || input == vleermuis2 || input == valkuil1){
-            cout << "Deze kamer is al in gebruik. Kies een andere kamer.\n";
-        }else{
-            cerr << "error valkuil2";
-            exit(1);
         }
     }
     return;
 }
 
-void schrijf_tunnel(const vector<vector<int>>& kamers){
+void schrijf_tunnel(const vector<vector<int>>& kamers){ // schrijft de tunnels en de andere items naar het bestand
     ofstream myfile;
     myfile.open(bestandtunnel);
     myfile << "";
@@ -136,10 +122,10 @@ void schrijf_tunnel(const vector<vector<int>>& kamers){
     return;
 }
 
-void driver_hand(){
+void driver_hand(){ // de driver code voor het handmatig invoeren van de locaties
     make_wumpus();
-    make_bat1();
-    make_bat2();
+    make_vleermuis1();
+    make_vleermuis2();
     make_valkuil1();
     make_valkuil2();
     schrijf_tunnel(kamers_hand);
@@ -149,16 +135,16 @@ void driver_hand(){
 
 //code voor random
 
-int random20(){
+int random20(){ // maakt een random getal tussen de 1 en de 20
     int x = rand() % 20 + 1;
     return x;
 }
 
-int random_gen(int x){
+int random_gen(int x){ // maakt een random getal tussen de 1 en de 20, maar slaat de eerste x over
     return rand() % (20-x) + (1+x);
 }
 
-bool check_limit(int x, const int& random){
+bool check_limit(int x, const int& random){ // checkt of de code kamers het aantal max tunnels zit
     for(int j = 0; j < kamers_rand[x].size(); j++){
         if(kamers_rand[x][j] == random){
             return true;
@@ -167,7 +153,7 @@ bool check_limit(int x, const int& random){
     return false;
 }
 
-bool generate_tunnels(){ // hij loopt vaak en als hij loopt zit hij vast omdat hij als enige optie heeft om een kamer met zich zelf te verbinden. dus nummer allemaal op 3 behalve 1
+bool generate_tunnels(){ // genereert random de tunnels tussen de kamers
     kamers_rand = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
     int random, trys;
     vector<int> nummers = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -203,7 +189,7 @@ bool check_item_conflict(const int& random){ // true als er een conflict is ande
     return false;
 }
 
-void generate_items(){
+void generate_items(){ // geeft de items een random plek die net conflict
     int random;
     wumpus = random20();
     while(true){
@@ -237,7 +223,7 @@ void generate_items(){
     return;
 }
 
-void driver_random(){
+void driver_random(){ // driver code voor het random maken van de tunnels en items
     srand( (unsigned)time(NULL) );
     while(true){
         if(generate_tunnels()){
@@ -252,7 +238,7 @@ void driver_random(){
     return;
 }
 
-int main(){
+int main(){ // main code
     string line;
     cout << "Wil je de voorgedefinieerde tunnels gebruiken of ze random genergen?\n(voor of random): ";
     getline (cin, line);
