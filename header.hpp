@@ -14,7 +14,6 @@ int locatie = 1;
 string bestandtunnel = "tunnel.txt";
 vector<vector<int>> kamers = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
 int wumpus,bat1,bat2,valkuil1,valkuil2;
-
 int pijlen = 5;
 string buur_error;
 
