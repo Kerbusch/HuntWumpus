@@ -104,8 +104,9 @@ void verplaats(){
 
 void verplaats_wumpus(){
     // verplaatst de Wumpus naar een random kamer.
-    int x = random20();
+    int x;
     while(true){
+        x = random20();
         if(x != wumpus && x != bat1 && x != bat2 && x != valkuil1 && x != valkuil2){
             wumpus = x;
             break;
@@ -197,6 +198,7 @@ bool valkuil_check(){
     }
     return false;
 }
+
 bool vleermuis_check(){
     // deze functie kijkt of de speler in een kamer met een vleermuis is.
     if(locatie == bat1 || locatie == bat2){
@@ -255,6 +257,5 @@ void driver(){
     }
     return;
 }
-
 
 #endif /* header_hpp */
