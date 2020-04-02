@@ -13,7 +13,13 @@ int main(){
     }
     lees_tunnel();
     while(true){
+        int random = random20();
+        if(random != wumpus && random != bat1 && random != bat2 && random != valkuil1 && random != valkuil2){
+            locatie = random;
+            break;
+        }
+    }
+    while(true){
         driver();
     }
 }
-
