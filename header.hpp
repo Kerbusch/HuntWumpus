@@ -117,7 +117,7 @@ void schiet(){
     getline (cin, string_invoer);
     if(check_buur(string_invoer) && pijlen > 0){ // kijkt of de opgegeven kamer een buur is.
         int invoer = stoi(string_invoer);
-        if(invoer == wumpus){ // kijkt op de Wumpus geraakt wordt.
+        if(invoer == wumpus){ // kijkt of de Wumpus geraakt wordt.
             cout << "Gefeliciteerd! Je hebt de Wumpus gedood!\n";
             exit(0);
         }
@@ -190,19 +190,6 @@ int random20(){
     return x;
 }
 
-bool vleermuis_check(){
-    // deze functie kijkt of de speler in een kamer met een vleermuis is.
-    if(locatie == bat1 || locatie == bat2){
-        return true;
-    }
-    return false;
-}
-
-int random20(){
-    int x = rand() % 20 + 1;
-    return x;
-}
-
 void driver(){
     // deze funtie is de code die er voor zorgt dat het spel werkt.
     if(locatie == wumpus){ //eindigt spel als speler op de zelfde locatie is als de Wumpus
@@ -220,7 +207,7 @@ void driver(){
     else if(vleermuis_check()){
         int random = random20();
         locatie = random;
-        cout << "In deze kamer zit een supervleermuis, hij verplaatst je naar kamer " << random << "!\n\n";
+        cout << "In deze kamer zit een Supervleermuis, hij verplaatst je naar kamer " << random << "!\n\n";
         return;
     }
 
@@ -228,7 +215,7 @@ void driver(){
         cout << "Je ruikt de Wumpus.\n";
     }
     if(hoorBat()){ //kijkt of je bat hoort
-        cout << "Je hoort geflapper van de vleermuizen.\n";
+        cout << "Je hoort geflapper van een Supervleermuis.\n";
     }
     cout << "\nJe bent in kamer: " << locatie << ". De tunnels leiden naar kamers: ";    //cout locatie
     for(int i = 0; i < 3; i ++){    //For-loop die itereerd over de vector met kamers
