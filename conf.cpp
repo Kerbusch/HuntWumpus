@@ -150,6 +150,10 @@ int random20(){
     return x;
 }
 
+int random_gen(int x){
+    return rand() % (20-x) + (1+x);
+}
+
 bool testx(int x, const int& random){
     for(int j = 0; j < kamers_rand[x].size(); j++){
         if(kamers_rand[x][j] == random){
@@ -168,7 +172,7 @@ void generate_tunnels(){ // hij loopt vaak en als hij loopt zit hij vast omdat h
         while(kamers_rand[i].size() < 3){
             cout << "--try\n";
             cout << kamers_rand[i].size() << "--while\n";
-            random = random20();
+            random = random_gen(i);
             if(testx(i, random) == false && nummers[random-1] < 3 && random != i+1){
                 kamers_rand[i].push_back(random); //
                 nummers[i]++;
@@ -244,7 +248,7 @@ int main(){
     string line;
     cout << "Wil je de voorgedefinieerde tunnels gebruiken of ze random genergen?\n(voor of random): ";
     getline (cin, line);
-    if(line == "hand"){
+    if(line == "voor"){
         driver_hand();
     }else if(line == "random"){
         driver_random();
