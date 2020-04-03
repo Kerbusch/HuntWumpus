@@ -1,5 +1,3 @@
-#ifndef header_hpp
-#define header_hpp
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -9,29 +7,13 @@
 #include <string>
 using namespace std;
 
-//Global variable
-int locatie = 1;
-string bestandtunnel = "tunnel.txt";
-vector<vector<int>> kamers = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
-int wumpus,bat1,bat2,valkuil1,valkuil2;
-int pijlen = 5;
-string buur_error;
-int zetten = 0;
-string instructies = "instructie.txt";
+#include "wumpus.hpp"
 
-void lees_instructie(){
-    string invoer, line;
-    cout << "Wil je instructies(y/n)? ";
-    getline (cin, invoer);
-    if(invoer == "y" || invoer == "yes" || invoer == "Y" || invoer == "YES" || invoer == "Yes"){
-        ifstream read_bestand;
-        read_bestand.open(instructies);
-        while(getline ( read_bestand, line)){
-            cout << line << "\n";
-        }
-    }
-    return;
-}
+int locatie = 1;
+string bestandtunnel = "tunnel.txt", bestandinstuctie = "instructie.txt", buur_error;
+vector<vector<int>> kamers = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
+int wumpus, vleermuis1, vleermuis2, valkuil1, valkuil2, pijlen = 5, zetten = 0;
+
 int random20(){
     int x = rand() % 20 + 1;
     return x;
@@ -40,10 +22,24 @@ int random20(){
 bool check_tunnel_leeg(){
     //checkt of het tunnel bestand leeg is.
     ifstream conf_tunnel_bestand(bestandtunnel);
-    if(conf_tunnel_bestand.peek() == std::ifstream::traits_type::eof()){ // niet onze code
+    if(conf_tunnel_bestand.peek() == std::ifstream::traits_type::eof()){ // niet onze code.
         return true;
     }
     return false;
+}
+
+void lees_instructie(){
+    string invoer, line;
+    cout << "Wil je instructies(y/n)? ";
+    getline (cin, invoer);
+    if(invoer == "y" || invoer == "yes" || invoer == "Y" || invoer == "YES" || invoer == "Yes"){
+        ifstream read_bestand;
+        read_bestand.open(bestandinstuctie);
+        while(getline ( read_bestand, line)){
+            cout << line << "\n";
+        }
+    }
+    return;
 }
 
 void lees_tunnel(){
@@ -60,10 +56,10 @@ void lees_tunnel(){
     }
     getline (conf_tunnel_bestand, line); // wumpus
     wumpus = stoi(line);
-    getline (conf_tunnel_bestand, line); // bat1
-    bat1 = stoi(line);
-    getline (conf_tunnel_bestand, line); // bat2
-    bat2 = stoi(line);
+    getline (conf_tunnel_bestand, line); // vleermuis1
+    vleermuis1 = stoi(line);
+    getline (conf_tunnel_bestand, line); // vleermuis2
+    vleermuis2 = stoi(line);
     getline (conf_tunnel_bestand, line); // valkuil1
     valkuil1 = stoi(line);
     getline (conf_tunnel_bestand, line); // valkuil1
@@ -123,7 +119,7 @@ void verplaats_wumpus(){
     int x;
     while(true){
         x = random20();
-        if(x != wumpus && x != bat1 && x != bat2 && x != valkuil1 && x != valkuil2){
+        if(x != wumpus && x != vleermuis1 && x != vleermuis2 && x != valkuil1 && x != valkuil2){
             wumpus = x;
             break;
         }
@@ -180,13 +176,13 @@ bool ruik(){
 
 bool hoorBat(){
     // deze funtie kijkt of de bat binnen 1 kamers zit en als dat zo is return hij true
-    for(unsigned int i = 0; i < kamers[bat1-1].size(); i++){
-        if(kamers[bat1-1][i] == locatie){
+    for(unsigned int i = 0; i < kamers[vleermuis1-1].size(); i++){
+        if(kamers[vleermuis1-1][i] == locatie){
             return true;
         }
     }
-    for(unsigned int i = 0; i < kamers[bat2-1].size(); i++){
-        if(kamers[bat2-1][i] == locatie){
+    for(unsigned int i = 0; i < kamers[vleermuis2-1].size(); i++){
+        if(kamers[vleermuis2-1][i] == locatie){
             return true;
         }
     }
@@ -218,7 +214,7 @@ bool valkuil_check(){
 
 bool vleermuis_check(){
     // deze functie kijkt of de speler in een kamer met een vleermuis is.
-    if(locatie == bat1 || locatie == bat2){
+    if(locatie == vleermuis1 || locatie == vleermuis2){
         return true;
     }
     return false;
@@ -241,7 +237,7 @@ void driver(){
     else if(vleermuis_check()){
         while(true){
             int random = random20();
-            if(random != bat1 && random != bat2){
+            if(random != vleermuis1 && random != vleermuis2){
                 locatie = random;
                 cout << "In deze kamer zit een Supervleermuis, hij verplaatst je naar kamer " << random << "!\n\n";
                 break;
@@ -278,10 +274,8 @@ void driver(){
     }else if((string_invoer == "help" || string_invoer == "HELP") && zetten >= 20){
         cout << "\nJammer dat je opgeeft, maar hier zijn de locaties:\n";
         cout << "De wumpus zit in kamer: " << wumpus << "\n";
-        cout << "De vleermuizen zitten in kamers: " << bat1 << " en " << bat2 << "\n";
+        cout << "De vleermuizen zitten in kamers: " << vleermuis1 << " en " << vleermuis2 << "\n";
         cout << "De valkuilen zitten in kamers: " << valkuil1 << " en " << valkuil2 << "\n\n";
     }
     return;
 }
-
-#endif /* header_hpp */
