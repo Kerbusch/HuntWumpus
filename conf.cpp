@@ -8,7 +8,6 @@
 using namespace std;
 
 string bestandtunnel = "tunnel.txt";
-
 vector<vector<int>> kamers_hand = {{2,5,8}, {1,3,10}, {2,4,12}, {3,5,14}, {1,4,6}, {5,7,15}, {6,8,17}, {1,7,9}, {8,10,18}, {2,9,11}, {10,12,19}, {3,11,13}, {12,14,20}, {4,13,15}, {6,14,16}, {15,17,20}, {7,16,18},{9,17,19}, {11,18,20}, {13,16,19}};
 vector<vector<int>> kamers_rand = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
 int wumpus,vleermuis1,vleermuis2,valkuil1,valkuil2;
@@ -129,6 +128,7 @@ void driver_hand(){ // de driver code voor het handmatig invoeren van de locatie
     make_valkuil1();
     make_valkuil2();
     schrijf_tunnel(kamers_hand);
+    cout << "\nConfiguratie gelukt. Je kan nu het spel spelen met deze configuratie\n\n"; 
     exit(0);
     return;
 }
@@ -234,6 +234,7 @@ void driver_random(){ // driver code voor het random maken van de tunnels en ite
     }
     generate_items();
     schrijf_tunnel(kamers_rand);
+    cout << "\nConfiguratie gelukt. Je kan nu het spel spelen met deze configuratie\n\n"; 
     exit(0);
     return;
 }
