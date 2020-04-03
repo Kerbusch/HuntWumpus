@@ -12,7 +12,7 @@ void verplaats();
 void verplaats_wumpus();
 void schiet();
 bool ruik();
-bool hoorBat();
+bool hoor_vleermuis();
 bool voelWind();
 bool valkuil_check();
 bool vleermuis_check();
