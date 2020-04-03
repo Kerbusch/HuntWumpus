@@ -18,7 +18,21 @@ int pijlen = 5;
 string buur_error;
 int zetten = 0;
 bool helper = false;
+string instructies = "instructie.txt";
 
+void lees_instructie(){
+    string invoer, line;
+    cout << "Wil je instructies(y/n)? ";
+    getline (cin, invoer);
+    if(invoer == "y" || invoer == "yes" || invoer == "Y" || invoer == "YES" || invoer == "Yes"){
+        ifstream read_bestand;
+        read_bestand.open(instructies);
+        while(getline ( read_bestand, line)){
+            cout << line << "\n";
+        }
+    }
+    return;
+}
 int random20(){
     int x = rand() % 20 + 1;
     return x;
@@ -202,6 +216,7 @@ bool valkuil_check(){
     }
     return false;
 }
+
 bool vleermuis_check(){
     // deze functie kijkt of de speler in een kamer met een vleermuis is.
     if(locatie == bat1 || locatie == bat2){
@@ -241,7 +256,7 @@ void driver(){
     }
 
     if(ruik()){ //kijkt of je Wumpus kan ruiken
-        cout << "Je ruikt de Wumpus.\n";
+        cout << "\n" << "Je ruikt de Wumpus.\n";
     }
     if(hoorBat()){ //kijkt of je bat hoort
         cout << "Je hoort geflapper van een Supervleermuis.\n";
@@ -270,6 +285,5 @@ void driver(){
     }
     return;
 }
-
 
 #endif /* header_hpp */
