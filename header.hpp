@@ -16,8 +16,7 @@ vector<vector<int>> kamers = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}
 int wumpus,bat1,bat2,valkuil1,valkuil2;
 int pijlen = 5;
 string buur_error;
-int zetten = 0;
-bool helper = false;
+int zetten = 18;
 string instructies = "instructie.txt";
 
 void lees_instructie(){
@@ -251,7 +250,9 @@ void driver(){
         return;
     }
 
-    if(zetten == 20 && not helper){
+    cout << zetten << "\n";
+
+    if(zetten >= 20){
         cout << "Je kan de oplossing krijgen als je door: 'help' te typen.\n";
     }
 
@@ -281,7 +282,6 @@ void driver(){
         cout << "De wumpus zit in kamer: " << wumpus << "\n";
         cout << "De vleermuizen zitten in kamers: " << bat1 << " en " << bat2 << "\n";
         cout << "De valkuilen zitten in kamers: " << valkuil1 << " en " << valkuil2 << "\n\n";
-        helper = true;
     }
     return;
 }
