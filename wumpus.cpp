@@ -43,7 +43,7 @@ void lees_instructie(){
 }
 
 void lees_tunnel(){
-    //leest het tunnel bestand en importeert de waardes voor de tunnels, Wumpus, bat en pit.
+    //leest het tunnel bestand en importeert de waardes voor de tunnels, Wumpus, vleermuis en pit.
     string line;
     ifstream conf_tunnel_bestand;
     conf_tunnel_bestand.open(bestandtunnel);
@@ -174,8 +174,8 @@ bool ruik(){
     return false;
 }
 
-bool hoorBat(){
-    // deze funtie kijkt of de bat binnen 1 kamers zit en als dat zo is return hij true
+bool hoor_vleermuis(){
+    // deze funtie kijkt of de vleermuis binnen 1 kamers zit en als dat zo is return hij true
     for(unsigned int i = 0; i < kamers[vleermuis1-1].size(); i++){
         if(kamers[vleermuis1-1][i] == locatie){
             return true;
@@ -253,7 +253,7 @@ void driver(){
     if(ruik()){ //kijkt of je Wumpus kan ruiken
         cout << "\n" << "Je ruikt de Wumpus.\n";
     }
-    if(hoorBat()){ //kijkt of je bat hoort
+    if(hoor_vleermuis()){ //kijkt of je vleermuis hoort
         cout << "Je hoort geflapper van een Supervleermuis.\n";
     }
     if(voelWind()){ //kijkt of je wind voelt
