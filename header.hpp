@@ -16,6 +16,8 @@ vector<vector<int>> kamers = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}
 int wumpus,bat1,bat2,valkuil1,valkuil2;
 int pijlen = 5;
 string buur_error;
+int zetten = 0;
+bool helper = false;
 string instructies = "instructie.txt";
 
 void lees_instructie(){
@@ -103,6 +105,7 @@ void verplaats(){
     cout << "\nWaar wil je heen? ";
     getline (cin, string_invoer);
     if(check_buur(string_invoer)){
+        zetten++;
         int invoer = stoi(string_invoer);
         locatie = invoer;
     }else{
@@ -135,6 +138,7 @@ void schiet(){
     cout << "\nWaar wil je heen schieten? ";
     getline (cin, string_invoer);
     if(check_buur(string_invoer) && pijlen > 0){ // kijkt of de opgegeven kamer een buur is.
+        zetten++;
         int invoer = stoi(string_invoer);
         if(invoer == wumpus){ // kijkt of de Wumpus geraakt wordt.
             cout << "Gefeliciteerd! Je hebt de Wumpus gedood!\n";
@@ -247,6 +251,10 @@ void driver(){
         return;
     }
 
+    if(zetten == 20 && not helper){
+        cout << "Je kan de oplossing krijgen als je door: 'help' te typen.\n";
+    }
+
     if(ruik()){ //kijkt of je Wumpus kan ruiken
         cout << "\n" << "Je ruikt de Wumpus.\n";
     }
@@ -268,6 +276,12 @@ void driver(){
     }
     else if(string_invoer == "V" || string_invoer == "v"){ // kijkt of de gebruiker wil verplaatsen
         verplaats();
+    }else if((string_invoer == "help" || string_invoer == "HELP") && zetten >= 20){
+        cout << "\nJammer dat je opgeeft, maar hier zijn de locaties:\n";
+        cout << "De wumpus zit in kamer: " << wumpus << "\n";
+        cout << "De vleermuizen zitten in kamers: " << bat1 << " en " << bat2 << "\n";
+        cout << "De valkuilen zitten in kamers: " << valkuil1 << " en " << valkuil2 << "\n\n";
+        helper = true;
     }
     return;
 }
