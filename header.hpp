@@ -16,7 +16,7 @@ vector<vector<int>> kamers = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}
 int wumpus,bat1,bat2,valkuil1,valkuil2;
 int pijlen = 5;
 string buur_error;
-int zetten = 18;
+int zetten = 0;
 string instructies = "instructie.txt";
 
 void lees_instructie(){
@@ -249,8 +249,6 @@ void driver(){
         }
         return;
     }
-
-    cout << zetten << "\n";
 
     if(zetten >= 20){
         cout << "Je kan de oplossing krijgen als je door: 'help' te typen.\n";
