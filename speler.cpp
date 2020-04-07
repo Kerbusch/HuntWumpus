@@ -1,5 +1,5 @@
 #include "wumpus.hpp"
-
+ 
 int main(){
     srand( (unsigned)time(NULL) ); //random
     if(check_tunnel_leeg()){ // kijkt of het tunnel bestand leeg is.
@@ -14,9 +14,9 @@ int main(){
             break;
         }
     }
-    lees_instructie(); // vraagt of de gebruiker de instructie wil lezen
+    cpu = true;
     std::cout << "Spel: " << lees_faal() << "\n";
     while(true){
-        driver(""); //driver van de code
+        driver(actie());
     }
 }

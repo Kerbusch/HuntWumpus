@@ -5,22 +5,73 @@
 #include <time.h>
 #include <stdio.h>
 #include <string>
+#include <unistd.h> // sleep()
 using namespace std;
 
+//wumpus header
 #include "wumpus.hpp"
 
+//global variables
 int locatie = 1;
-string bestandtunnel = "tunnel.txt", bestandinstuctie = "instructie.txt", buur_error;
+string bestandtunnel = "tunnel.txt", bestandinstuctie = "instructie.txt", buur_error, bestandfaal = "faal.txt";
 vector<vector<int>> kamers = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
-int wumpus, vleermuis1, vleermuis2, valkuil1, valkuil2, pijlen = 5, zetten = 0;
+int wumpus, vleermuis1, vleermuis2, valkuil1, valkuil2, pijlen = 5, zetten = 1;
+bool cpu;
 
-int random20(){
+// bestand lezen:
+// bestand schrijven
+// variabel omhoog
+
+int lees_faal(){
+    string line;
+    int waarde;
+    ifstream faal_bestand;
+    faal_bestand.open(bestandfaal);
+    getline (faal_bestand, line);
+    faal_bestand.close();
+    return stoi(line);
+}
+
+void schrijf_faal(const int& waarde){
+    ofstream faal_bestand;
+    faal_bestand.open(bestandfaal);
+    faal_bestand << waarde;
+    faal_bestand.close();
+    return;
+}
+
+void faal(){
+    int waarde = lees_faal();
+    waarde++;
+    schrijf_faal(waarde);
+    return;
+}
+
+int win(){
+    int waarde = lees_faal();
+    schrijf_faal(0);
+    return waarde+1;
+}
+
+int random20(){ // geeft een random getal tussen de 1 en 20.
     int x = rand() % 20 + 1;
     return x;
 }
 
-bool check_tunnel_leeg(){
-    //checkt of het tunnel bestand leeg is.
+int random_buur(){ // geeft een random buur van de locatie.
+    int x = rand() % 3;
+    return kamers[locatie-1][x];
+}
+
+string actie(){ // 50/50 verplaats of schiet. wordt gebruikt door de CPU
+    int x = rand() % 2;
+    if(x >= 1){
+        return "v";
+    }
+    return "s";
+}
+
+bool check_tunnel_leeg(){ //checkt of het tunnel bestand leeg is.
     ifstream conf_tunnel_bestand(bestandtunnel);
     if(conf_tunnel_bestand.peek() == std::ifstream::traits_type::eof()){ // niet onze code.
         return true;
@@ -94,11 +145,16 @@ bool check_buur(const string& string_invoer){
     return false;
 }
 
-void verplaats(){
+void verplaats(string x){
     // verplaats de speler naar een andere kamer.
     string string_invoer;
     cout << "\nWaar wil je heen? ";
-    getline (cin, string_invoer);
+    if(x == ""){
+        getline (cin, string_invoer);
+    }else{
+        string_invoer = x;
+        cout << "\n\nCPU verplaatst naar: " << x << "\n";
+    }
     if(check_buur(string_invoer)){
         zetten++;
         int invoer = stoi(string_invoer);
@@ -127,16 +183,21 @@ void verplaats_wumpus(){
     return;
 }
 
-void schiet(){
+void schiet(string x){
     // schiet funtie
     string string_invoer;
     cout << "\nWaar wil je heen schieten? ";
-    getline (cin, string_invoer);
+    if(x == ""){
+        getline (cin, string_invoer);
+    }else{
+        string_invoer = x;
+        cout << "\n\nCPU schiet naar: " << x << "\n";
+    }
     if(check_buur(string_invoer) && pijlen > 0){ // kijkt of de opgegeven kamer een buur is.
         zetten++;
         int invoer = stoi(string_invoer);
         if(invoer == wumpus){ // kijkt of de Wumpus geraakt wordt.
-            cout << "Gefeliciteerd! Je hebt de Wumpus gedood!\n";
+            cout << "Gefeliciteerd! Je hebt de Wumpus gedood! Je hebt er " << win() << " spellen over gedaan.\n";
             exit(0);
         }
         else{
@@ -220,18 +281,29 @@ bool vleermuis_check(){
     return false;
 }
 
-void driver(){
+void driver(string x){
+    /*if(cpu){
+        usleep(1000000); //dit zal er voor zorgen dat de cpu de output niet zo snel output.
+    }*/
+    
     // deze funtie is de code die er voor zorgt dat het spel werkt.
+    string string_random = "";
+    cout << "----------------------------------------\n";
+    
+
     if(locatie == wumpus){ //eindigt spel als speler op de zelfde locatie is als de Wumpus
         cout << "Helaas je bent opgegeten door de Wumpus, GAME OVER!\n";
+        faal();
         exit(0);
     }
     else if(pijlen <= 0){
         cout << "Je pijlen zijn op! GAME OVER!\n";
+        faal();
         exit(0);
     }
     else if(valkuil_check()){
         cout << "Je ben in een put gevallen! GAME OVER!\n";
+        faal();
         exit(0);
     }
     else if(vleermuis_check()){
@@ -254,23 +326,30 @@ void driver(){
         cout << "\n" << "Je ruikt de Wumpus.\n";
     }
     if(hoor_vleermuis()){ //kijkt of je vleermuis hoort
-        cout << "Je hoort geflapper van een Supervleermuis.\n";
+        cout << "\nJe hoort geflapper van een Supervleermuis.\n";
     }
     if(voelWind()){ //kijkt of je wind voelt
-        cout << "Je voelt een lichte bries.\n";
+        cout << "\nJe voelt een lichte bries.\n";
     }
-    cout << "\nJe bent in kamer: " << locatie << ". De tunnels leiden naar kamers: ";    //cout locatie
+    cout << "\nZet: " << zetten << "\n";
+    cout << "Je bent in kamer: " << locatie << ". De tunnels leiden naar kamers: ";    //cout locatie
     for(int i = 0; i < 3; i ++){    //For-loop die itereerd over de vector met kamers
             cout << kamers[locatie-1][i] << ", ";
     }
     string string_invoer; // maakt de string voor de invoer
+    
     cout << "\nSchiet of verplaats (S of V)? "; //print de opties die de gebruiker kan doen
-    getline (cin, string_invoer); // leest de invoer can de gebruiker
+    if(x == "v" || x == "s"){ // kijkt of de code wordt gebruikt door een echte speler of computer spelen en vraagt een cin bij de echte speler.
+        string_invoer = x;
+        string_random = to_string(random_buur());
+    }else{
+        getline (cin, string_invoer); // leest de invoer can de gebruiker
+    }
     if(string_invoer == "S" || string_invoer == "s"){ // kijkt of de gebruiker wil schieten
-        schiet();
+        schiet(string_random);
     }
     else if(string_invoer == "V" || string_invoer == "v"){ // kijkt of de gebruiker wil verplaatsen
-        verplaats();
+        verplaats(string_random);
     }else if((string_invoer == "help" || string_invoer == "HELP") && zetten >= 20){
         cout << "\nJammer dat je opgeeft, maar hier zijn de locaties:\n";
         cout << "De wumpus zit in kamer: " << wumpus << "\n";
