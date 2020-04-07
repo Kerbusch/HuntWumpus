@@ -20,8 +20,10 @@ bool valkuil_check();
 bool vleermuis_check();
 void driver();
 
-#include "wumpus.cpp"
+//#include "cpu.cpp"
 
-void test();
+//void end();
+//void make_location_safe();
+//void cpu_driver();
 
 #endif /* wumpus_hpp */
