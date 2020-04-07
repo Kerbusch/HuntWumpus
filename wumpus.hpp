@@ -4,6 +4,8 @@
 #include "wumpus.cpp"
 
 int random20();
+int random_buur();
+string actie();
 bool check_bestand_leeg();
 void lees_instructie();
 void lees_tunnel();
@@ -17,5 +19,9 @@ bool voelWind();
 bool valkuil_check();
 bool vleermuis_check();
 void driver();
+
+#include "wumpus.cpp"
+
+void test();
 
 #endif /* wumpus_hpp */
