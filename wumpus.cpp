@@ -193,7 +193,7 @@ void schiet(string x){
         zetten++;
         int invoer = stoi(string_invoer);
         if(invoer == wumpus){ // kijkt of de Wumpus geraakt wordt.
-            cout << "Gefeliciteerd! Je hebt de Wumpus gedood! Je hebt er " << win() << " spellen over gedaan.\n";
+            cout << "Gefeliciteerd! Je hebt de Wumpus gedood! Je hebt er " << win() << " spell(en) over gedaan.\n";
             exit(0);
         }
         else{

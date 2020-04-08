@@ -1,4 +1,5 @@
 #include "wumpus.hpp"
+#include "cpu.hpp"
 
 int main(){
     srand( (unsigned)time(NULL) ); //random
