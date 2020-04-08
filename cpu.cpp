@@ -1,6 +1,7 @@
 #include <algorithm>
 
 #include "wumpus.hpp"
+#include "cpu.hpp"
 
 using std::cout;
 
@@ -115,7 +116,19 @@ int random_buur_vector(const vector<int>& opties){
     return opties[x];
 }
 
+bool check_safe(const int& x){
+    for(int j = 0; j < safe.size(); j++){
+        if(x == safe[j]){
+            return true;
+        }
+    }
+    return false;
+}
+
 void remove_from_safe(const int& x){
+    if(not check_safe(x)){
+        return;
+    }
     vector<int>::iterator itr = find(safe.begin(),safe.end(),x);
     int index = distance(safe.begin(), itr);
     safe.erase(safe.begin()+index);
@@ -127,10 +140,12 @@ void end_game(const string& x){
         remove_from_safe(locatie);
         cpu_wumpus = locatie;
     }else if(x == "valkuil"){
-        remove_from_safe(locatie);  
+        remove_from_safe(locatie);
         cpu_valkuil.push_back(locatie);
+        route.push_back(99);
     }
     schrijf_variabel_bestand();
+    faal();
     exit(0);
     return;
 }
@@ -140,14 +155,14 @@ void check_route_last(){
     for(int i = route_last.size()-1; i > -1; i--){
         if(route_last[i] == 99){
             check = false;
-            cout << "niet geldige route\n";
+            //cout << "niet geldige route\n";
             return;
         }
     }
     if(check){
         for(int i = route_last.size()-1; i > -1; i--){
             if(route_last[i] == locatie){
-                cout << "route found\n";
+                //cout << "route found\n";
                 route_index = i;
                 route_find = true;
             }
@@ -230,11 +245,14 @@ void cpu_driver(){
     if(route_find){
         cout << "\n--route volgen --route_index: " << route_index << "\n";
         if(route_last[route_index+1] )
+        cout << "verplaats route find\n";
         verplaats(to_string(route_last[route_index+1]));
         route_index++;
+        if(route_index > route_last.size()){
+            route_find = false;
+        }
         return;
     }else{
-        cout << "--route_find false\n";
         check_route_last();
     }
 
@@ -248,6 +266,7 @@ void cpu_driver(){
         }
     }
     int tmp = random_buur_vector(opties);
+    cout << "verplaats normaal\n";
     verplaats(to_string(tmp));
     route.push_back(locatie);
     return;
