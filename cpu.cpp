@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "wumpus.hpp"
 
 using std::cout;
@@ -114,19 +116,18 @@ int random_buur_vector(const vector<int>& opties){
 }
 
 void remove_from_safe(const int& x){
-    safe.erase(safe.begin()+x-1);
+    vector<int>::iterator itr = find(safe.begin(),safe.end(),x);
+    int index = distance(safe.begin(), itr);
+    safe.erase(safe.begin()+index);
     return;
 }
 
 void end_game(const string& x){
     if(x == "wumpus"){
-        cout << "end wumpus1\n";
-        remove_from_safe(locatie-1);
-        cout << "end wumpus2\n";
+        remove_from_safe(locatie);
         cpu_wumpus = locatie;
-        cout << "end wumpus3\n";
     }else if(x == "valkuil"){
-        remove_from_safe(locatie-1);  
+        remove_from_safe(locatie);  
         cpu_valkuil.push_back(locatie);
     }
     schrijf_variabel_bestand();
