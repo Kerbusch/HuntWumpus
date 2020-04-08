@@ -13,14 +13,10 @@ using namespace std;
 
 //global variables
 int locatie = 1;
-string bestandtunnel = "tunnel.txt", bestandinstuctie = "instructie.txt", buur_error, bestandfaal = "faal.txt";
+string bestandtunnel = "tekst/tunnel.txt", bestandinstuctie = "tekst/instructie.txt", buur_error, bestandfaal = "tekst/faal.txt";
 vector<vector<int>> kamers = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
 int wumpus, vleermuis1, vleermuis2, valkuil1, valkuil2, pijlen = 5, zetten = 1;
 bool cpu;
-
-// bestand lezen:
-// bestand schrijven
-// variabel omhoog
 
 int lees_faal(){
     string line;

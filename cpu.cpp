@@ -3,8 +3,10 @@
 using std::cout;
 
 //cpu varables:
-vector<int> valkuil_v = {}, vleermuis_v = {}, safe = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}, cpu_vleermuis = {}, cpu_valkuil = {};
-int cpu_wumpus = -1;
+vector<int> safe = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}, cpu_vleermuis = {}, cpu_valkuil = {}, route = {}, route_last = {} ;
+int cpu_wumpus = 99, route_index = 0;
+bool route_find = false;
+string bestandvariable = "tekst/variabel.txt";
 
 // kijken welke optie van de buuren het best is om naar te verplaatsem
 // kijken waaneer de cpu moet schieten.
@@ -12,15 +14,79 @@ int cpu_wumpus = -1;
 // if doel == wumpus,vleermuis,put then niet verplaatsen!
 // route onthouden <--
 
+void schrijf_variabel_bestand(){
+    ofstream bestand;
+    //leeg bestand:
+    bestand.open(bestandvariable);
+    bestand << "";
+    bestand.close();
+    //schrijf in bestand
+    bestand.open(bestandvariable, ofstream::app);
+    bestand << safe.size() << "\n";
+    for(int i = 0; i < safe.size(); i++){
+        bestand << safe[i] << "\n";
+    }
+    bestand << cpu_vleermuis.size() << "\n";
+    for(int i = 0; i < cpu_vleermuis.size(); i++){
+        bestand << cpu_vleermuis[i] << "\n";
+    }
+    bestand << cpu_valkuil.size() << "\n";
+    for(int i = 0; i < cpu_valkuil.size(); i++){
+        bestand << cpu_valkuil[i] << "\n";
+    }
+    bestand << route.size() << "\n";
+    for(int i = 0; i < route.size(); i++){
+        bestand << route[i] << "\n";
+    }
+    bestand << cpu_wumpus << "\n";
+    bestand.close();
+    return;
+}
+
+void lees_variabel_bestand(){
+    int max;
+    string line;
+    ifstream bestand;
+    bestand.open(bestandvariable);
+    safe = {};
+    getline (bestand, line);
+    max = stoi(line);
+    for(int i = 0; i < max; i++){
+        getline (bestand, line);
+        safe.push_back(stoi(line));
+    }
+    getline (bestand, line);
+    max = stoi(line);
+    for(int i = 0; i < max; i++){
+        getline (bestand, line);
+        cpu_vleermuis.push_back(stoi(line));
+    }
+    getline (bestand, line);
+    max = stoi(line);
+    for(int i = 0; i < max; i++){
+        getline (bestand, line);
+        cpu_valkuil.push_back(stoi(line));
+    }
+    getline (bestand, line);
+    max = stoi(line);
+    for(int i = 0; i < max; i++){
+        getline (bestand, line);
+        route_last.push_back(stoi(line));
+    }
+    getline (bestand, line);
+    cpu_wumpus = stoi(line);
+    bestand.close();
+}
+
+bool check_variabel_leeg(){ //checkt of het tunnel bestand leeg is.
+    ifstream bestand(bestandvariable);
+    if(bestand.peek() == std::ifstream::traits_type::eof()){ // niet onze code.
+        return true;
+    }
+    return false;
+}
+
 void print_all(){
-    cout << "valkuil_v: \n";
-    for(int i = 0; i < valkuil_v.size(); i++){
-        cout << valkuil_v[i] << "\n";
-    }
-    cout << "vleermuis_v: \n";
-    for(int i = 0; i < vleermuis_v.size(); i++){
-        cout << vleermuis_v[i] << "\n";
-    }
     cout << "safe: \n";
     for(int i = 0; i < safe.size(); i++){
         cout << safe[i] << "\n";
@@ -34,6 +100,11 @@ void print_all(){
         cout << cpu_valkuil[i] << "\n";
     }
     cout << "cpu_wumpus: " << cpu_wumpus << "\n";
+    cout << "route: \n";
+    for(int i = 0; i < route.size(); i++){
+        cout << route[i] << ", ";
+    }
+    cout << "\n";
     return;
 }
 
@@ -49,14 +120,38 @@ void remove_from_safe(const int& x){
 
 void end_game(const string& x){
     if(x == "wumpus"){
-        remove_from_safe(locatie);
+        cout << "end wumpus1\n";
+        remove_from_safe(locatie-1);
+        cout << "end wumpus2\n";
         cpu_wumpus = locatie;
+        cout << "end wumpus3\n";
     }else if(x == "valkuil"){
-        remove_from_safe(locatie);  
+        remove_from_safe(locatie-1);  
         cpu_valkuil.push_back(locatie);
     }
-    print_all();
+    schrijf_variabel_bestand();
     exit(0);
+    return;
+}
+
+void check_route_last(){
+    bool check = true;
+    for(int i = route_last.size()-1; i > -1; i--){
+        if(route_last[i] == 99){
+            check = false;
+            cout << "niet geldige route\n";
+            return;
+        }
+    }
+    if(check){
+        for(int i = route_last.size()-1; i > -1; i--){
+            if(route_last[i] == locatie){
+                cout << "route found\n";
+                route_index = i;
+                route_find = true;
+            }
+        }
+    }
     return;
 }
 
@@ -76,6 +171,7 @@ bool check_spel_end(){
     }else if(vleermuis_check()){
         remove_from_safe(locatie);
         cpu_vleermuis.push_back(locatie);
+        route.push_back(99);
         while(true){
             int random = random20();
             if(random != vleermuis1 && random != vleermuis2){
@@ -129,6 +225,17 @@ void cpu_driver(){
             return;
         }
     }
+    
+    if(route_find){
+        cout << "\n--route volgen --route_index: " << route_index << "\n";
+        if(route_last[route_index+1] )
+        verplaats(to_string(route_last[route_index+1]));
+        route_index++;
+        return;
+    }else{
+        cout << "--route_find false\n";
+        check_route_last();
+    }
 
     // als hij niet weet waar de wumpus is of niet ziet dan:
     vector<int> opties;
@@ -141,4 +248,6 @@ void cpu_driver(){
     }
     int tmp = random_buur_vector(opties);
     verplaats(to_string(tmp));
+    route.push_back(locatie);
+    return;
 }

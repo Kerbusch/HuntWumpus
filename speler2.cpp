@@ -1,5 +1,5 @@
 #include "wumpus.hpp"
- 
+
 int main(){
     srand( (unsigned)time(NULL) ); //random
     if(check_tunnel_leeg()){ // kijkt of het tunnel bestand leeg is.
@@ -15,7 +15,9 @@ int main(){
         }
     }
     cpu = true;
-    print_all();
+    if(not check_variabel_leeg()){
+        lees_variabel_bestand();
+    }
     while(true){
         cpu_driver();
     }
