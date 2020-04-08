@@ -6,7 +6,6 @@
 void schrijf_variabel_bestand();
 void lees_variabel_bestand();
 bool check_variabel_leeg();
-void print_all();
 int random_buur_vector(const vector<int>& opties);
 void remove_from_safe(const int& x);
 void end_game(const string& x);

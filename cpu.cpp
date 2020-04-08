@@ -89,28 +89,6 @@ bool check_variabel_leeg(){ //checkt of het tunnel bestand leeg is.
     return false;
 }
 
-void print_all(){
-    cout << "safe: \n";
-    for(int i = 0; i < safe.size(); i++){
-        cout << safe[i] << "\n";
-    }
-    cout << "cpu_vleermuis: \n";
-    for(int i = 0; i < cpu_vleermuis.size(); i++){
-        cout << cpu_vleermuis[i] << "\n";
-    }
-    cout << "cpu_valkuil: \n";
-    for(int i = 0; i < cpu_valkuil.size(); i++){
-        cout << cpu_valkuil[i] << "\n";
-    }
-    cout << "cpu_wumpus: " << cpu_wumpus << "\n";
-    cout << "route: \n";
-    for(int i = 0; i < route.size(); i++){
-        cout << route[i] << ", ";
-    }
-    cout << "\n";
-    return;
-}
-
 int random_buur_vector(const vector<int>& opties){
     int x = rand() % opties.size();
     return opties[x];
