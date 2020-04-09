@@ -1,5 +1,3 @@
-#include <algorithm>
-
 #include "wumpus.hpp"
 #include "cpu.hpp"
 
@@ -107,8 +105,8 @@ void remove_from_safe(const int& x){
     if(not check_safe(x)){
         return;
     }
-    vector<int>::iterator itr = find(safe.begin(),safe.end(),x);
-    int index = distance(safe.begin(), itr);
+    vector<int>::iterator itr = find(safe.begin(),safe.end(),x); // niet onze code.
+    int index = distance(safe.begin(), itr); // niet onze code.
     safe.erase(safe.begin()+index);
     return;
 }
@@ -180,6 +178,10 @@ bool check_spel_end(){
 }
 
 void cpu_driver(){
+    /*cout << "----------------------------------------\n";
+    string tmp_invoer;
+    cout << "(druk op enter om verder te gaan: )";
+    getline(cin, tmp_invoer);*/
     cout << "----------------------------------------\n";
 
     // kijkt of het spel beeindigt word

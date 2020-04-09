@@ -5,7 +5,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <string>
-#include <unistd.h> // sleep()
+#include <algorithm>
 using namespace std;
 
 //wumpus header
@@ -13,10 +13,20 @@ using namespace std;
 
 //global variables
 int locatie = 1;
-string bestandtunnel = "tekst/tunnel.txt", bestandinstuctie = "tekst/instructie.txt", buur_error, bestandfaal = "tekst/faal.txt";
+string bestandtunnel = "tekst/tunnel.txt", bestandinstuctie = "tekst/instructie.txt", buur_error, bestandfaal = "tekst/faal.txt", bestandhighscore = "tekst/highscore.txt", bestandvariable2 = "tekst/variabel.txt";
 vector<vector<int>> kamers = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
+vector<string> namen = {};
+vector<int> scores = {};
 int wumpus, vleermuis1, vleermuis2, valkuil1, valkuil2, pijlen = 5, zetten = 1;
 bool cpu;
+
+void leeg_variabel(){
+    ofstream variabel_bestand;
+    variabel_bestand.open(bestandvariable2);
+    variabel_bestand << "";
+    variabel_bestand.close();
+    return;
+}
 
 int lees_faal(){
     string line;
@@ -41,6 +51,58 @@ void faal(){
     waarde++;
     schrijf_faal(waarde);
     return;
+}
+
+void schrijf_highscore(string naam, int waarde){
+    ofstream bestand;
+    bestand.open(bestandhighscore, ofstream::app);
+    bestand << naam << "\n";
+    bestand << waarde << "\n";
+    bestand.close();
+    return;
+}
+
+void lees_highscore(){
+    ifstream high_bestand;
+    string line;
+    high_bestand.open(bestandhighscore);
+    while(getline (high_bestand, line)){
+        if(line == ""){
+            return;
+        }namen.push_back(line);
+        getline (high_bestand, line);
+        scores.push_back(stoi(line));
+    }
+}
+
+void top_1(){
+    int min = scores[0];
+    for(int i = 1; i < scores.size(); i++){
+        if(scores[i] < min){
+            min = scores[i];
+        }
+    }
+    vector<int>::iterator itr = find(scores.begin(),scores.end(),min); // niet onze code.
+    int index = distance(scores.begin(), itr); // niet onze code.
+    cout << namen[index] << " met score: " << scores[index] <<"\n";
+    scores.erase(scores.begin()+index);
+    namen.erase(namen.begin()+index);
+    return;
+}
+
+void top_3(){
+    lees_highscore();
+    if(scores.size() < 3){
+        for(int i = 0; i < scores.size()+1; i++){
+            cout << i+1 << ": ";
+            top_1();
+        }
+    }else{
+        for(int i = 0; i < 3; i++){
+            cout << i+1 << ": ";
+            top_1();
+        }
+    }
 }
 
 int win(){
@@ -193,7 +255,20 @@ void schiet(string x){
         zetten++;
         int invoer = stoi(string_invoer);
         if(invoer == wumpus){ // kijkt of de Wumpus geraakt wordt.
-            cout << "\n\nGefeliciteerd! Je hebt de Wumpus gedood! Je hebt er " << win() << " spell(en) over gedaan.\n";
+            int winner = win();
+            cout << "\n\nGefeliciteerd! Je hebt de Wumpus gedood! Je hebt er " << winner << " spell(en) over gedaan.\n";
+            string line;
+            if(not cpu){
+                cout << "\n\nNaam: ";
+                getline(cin, line);
+            }else{
+                line = "Computerspeler";
+            }
+            schrijf_highscore(line,winner);
+            cout << "\n\n----------------------------------------\n";
+            top_3();
+            cout << "----------------------------------------\n";
+            leeg_variabel();
             exit(0);
         }
         else{
@@ -279,7 +354,10 @@ bool vleermuis_check(){
 
 void driver(string x){
     /*if(cpu){
-        usleep(1000000); //dit zal er voor zorgen dat de cpu de output niet zo snel output.
+        cout << "----------------------------------------\n";
+        string tmp_invoer;
+        cout << "(druk op enter om verder te gaan: )";
+        getline(cin, tmp_invoer);
     }*/
     
     // deze funtie is de code die er voor zorgt dat het spel werkt.
