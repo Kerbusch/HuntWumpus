@@ -353,12 +353,12 @@ bool vleermuis_check(){
 }
 
 void driver(string x){
-    /*if(cpu){
+    if(cpu){
         cout << "----------------------------------------\n";
         string tmp_invoer;
         cout << "(druk op enter om verder te gaan: )";
         getline(cin, tmp_invoer);
-    }*/
+    }
     
     // deze funtie is de code die er voor zorgt dat het spel werkt.
     string string_random = "";

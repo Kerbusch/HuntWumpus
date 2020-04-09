@@ -197,12 +197,6 @@ bool generate_tunnels(){ // genereert random de tunnels tussen de kamers
             trys++;
         }
     }
-    //for(int i = 0; i < kamers_rand.size(); i++){
-    //    for(int j = 0; j < kamers_rand[i].size(); j++){
-    //        cout << kamers_rand[i][j] << ",";
-    //    }
-    //    cout << "\n";
-    //}
     return true;
 }
 

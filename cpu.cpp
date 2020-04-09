@@ -9,12 +9,6 @@ int cpu_wumpus = 99, route_index = 0;
 bool route_find = false;
 string bestandvariable = "tekst/variabel.txt";
 
-// kijken welke optie van de buuren het best is om naar te verplaatsem
-// kijken waaneer de cpu moet schieten.
-// vector gebruiken voor onthouden waar de wumpus, vleermuizen en valkuilen kunnen zijn
-// if doel == wumpus,vleermuis,put then niet verplaatsen!
-// route onthouden <--
-
 void schrijf_variabel_bestand(){
     ofstream bestand;
     //leeg bestand:
@@ -178,10 +172,10 @@ bool check_spel_end(){
 }
 
 void cpu_driver(){
-    /*cout << "----------------------------------------\n";
+    cout << "----------------------------------------\n";
     string tmp_invoer;
     cout << "(druk op enter om verder te gaan: )";
-    getline(cin, tmp_invoer);*/
+    getline(cin, tmp_invoer);
     cout << "----------------------------------------\n";
 
     // kijkt of het spel beeindigt word
