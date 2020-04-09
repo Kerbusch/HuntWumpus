@@ -7,10 +7,18 @@
 #include <stdlib.h>
 using namespace std;
 
-string bestandtunnel = "tekst/tunnel.txt", bestandfaal = "tekst/faal.txt", bestandvariable = "tekst/variabel.txt";
+string bestandtunnel = "tekst/tunnel.txt", bestandfaal = "tekst/faal.txt", bestandvariable = "tekst/variabel.txt",  bestandhighscore = "tekst/highscore.txt";
 vector<vector<int>> kamers_hand = {{2,5,8}, {1,3,10}, {2,4,12}, {3,5,14}, {1,4,6}, {5,7,15}, {6,8,17}, {1,7,9}, {8,10,18}, {2,9,11}, {10,12,19}, {3,11,13}, {12,14,20}, {4,13,15}, {6,14,16}, {15,17,20}, {7,16,18},{9,17,19}, {11,18,20}, {13,16,19}};
 vector<vector<int>> kamers_rand = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
 int wumpus,vleermuis1,vleermuis2,valkuil1,valkuil2;
+
+void leeg_highscore(){
+    ofstream bestand;
+    bestand.open(bestandhighscore);
+    bestand << "";
+    bestand.close();
+    return;
+}
 
 void leeg_faal(){
     ofstream faal_bestand;
@@ -252,6 +260,7 @@ void driver_random(){ // driver code voor het random maken van de tunnels en ite
     schrijf_tunnel(kamers_rand);
     leeg_faal();
     leeg_variabel();
+    leeg_highscore();
     cout << "\nConfiguratie gelukt. Je kan nu het spel spelen met deze configuratie\n\n"; 
     exit(0);
     return;
